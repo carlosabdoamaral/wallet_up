@@ -10,14 +10,13 @@ import (
 )
 
 func main() {
-	common.LogInfo("Starting backend")
+	common.PrintInfo("Starting...")
 
-	common.LogInfo("Getting .env variables")
-	utils.GetEnvVariables()
+	common.PrintInfo("Reading .env")
+	ReadEnvVariables()
 
-	common.LogInfo("Starting API")
+	common.PrintInfo("Starting API")
 	InitAPI()
-
 }
 
 func InitAPI() {
@@ -28,7 +27,15 @@ func InitAPI() {
 	port := fmt.Sprintf(":%d", common.API_PORT)
 	err := r.Run(port)
 	if err != nil {
-		common.LogFatal("Error starting API")
+		common.PrintError("Error starting API!")
 		return
+	}
+}
+
+func ReadEnvVariables() {
+	envErr := utils.GetEnvVariables()
+	if envErr != nil {
+		common.PrintError(envErr.Error())
+		common.PrintFatal("Failed to load env file. Make sure .env file exists!")
 	}
 }

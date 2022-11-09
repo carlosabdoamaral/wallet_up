@@ -2,6 +2,7 @@ package common
 
 import (
 	"fmt"
+	"log"
 )
 
 const (
@@ -15,26 +16,27 @@ const (
 	colorWhite  = "\033[37m"
 )
 
-//fmt.Println(string(colorRed), "test")
-//fmt.Println(string(colorGreen), "test")
-//fmt.Println(string(colorYellow), "test")
-//fmt.Println(string(colorBlue), "test")
-//fmt.Println(string(colorPurple), "test")
-//fmt.Println(string(colorWhite), "test")
-//fmt.Println(string(colorCyan), "test")
-
-func LogInfo(s string) {
-	fmt.Println(string(colorCyan), "[*]", s, string(colorReset))
+func PrintInfo(s string) {
+	s = fmt.Sprintf("%s[*] %s%s", string(colorBlue), s, string(colorReset))
+	fmt.Println(s)
 }
 
-func LogWarning(s string) {
-	fmt.Println(string(colorYellow), "[*]", s, string(colorReset))
+func PrintSuccess(s string) {
+	s = fmt.Sprintf("%s[*] %s%s", string(colorGreen), s, string(colorReset))
+	fmt.Println(s)
 }
 
-func LogError(s string) {
-	fmt.Println(string(colorRed), "[!]", s, string(colorReset))
+func PrintWarning(s string) {
+	s = fmt.Sprintf("%s[*] %s%s", string(colorYellow), s, string(colorReset))
+	fmt.Println(s)
 }
 
-func LogFatal(s string) {
-	fmt.Println(string(colorRed), "[!]", s, string(colorReset))
+func PrintError(s string) {
+	s = fmt.Sprintf("%s[!] %s%s", string(colorRed), s, string(colorReset))
+	fmt.Println(s)
+}
+
+func PrintFatal(s string) {
+	fmt.Printf("%s[!] %s%s\n", string(colorRed), s, string(colorReset))
+	log.Fatalln()
 }

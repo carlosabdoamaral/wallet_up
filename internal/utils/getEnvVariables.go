@@ -2,13 +2,15 @@ package utils
 
 import (
 	"github.com/carlosabdoamaral/wallet_up/common"
+	"github.com/joho/godotenv"
 	"os"
-	"strconv"
 )
 
-func GetEnvVariables() {
-	_apiPort, _ := strconv.Atoi(os.Getenv("API_PORT"))
-	common.API_PORT = _apiPort
+func GetEnvVariables() error {
+	errEnv := godotenv.Load(".env")
+	if errEnv != nil {
+		return errEnv
+	}
 
 	common.DB_USER = os.Getenv("DB_USER")
 	common.DB_PASS = os.Getenv("DB_PASS")
@@ -20,4 +22,6 @@ func GetEnvVariables() {
 
 	common.RABBIT_URL = os.Getenv("RABBIT_URL")
 	common.RABBIT_QUEUENAME = os.Getenv("RABBIT_QUEUENAME")
+
+	return nil
 }
