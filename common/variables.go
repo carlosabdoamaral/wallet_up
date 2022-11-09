@@ -2,6 +2,8 @@ package common
 
 import (
 	"database/sql"
+
+	"github.com/gin-gonic/gin"
 	"github.com/streadway/amqp"
 )
 
@@ -12,6 +14,7 @@ var (
 
 var (
 	API_PORT = 8080
+	Router   = &gin.Engine{}
 )
 
 var (

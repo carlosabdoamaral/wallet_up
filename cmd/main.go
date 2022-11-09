@@ -1,13 +1,9 @@
 package main
 
 import (
-	"fmt"
-
 	"github.com/carlosabdoamaral/wallet_up/common"
-	"github.com/carlosabdoamaral/wallet_up/internal/handlers"
-	"github.com/carlosabdoamaral/wallet_up/internal/middlewares"
+	"github.com/carlosabdoamaral/wallet_up/internal/api"
 	"github.com/carlosabdoamaral/wallet_up/internal/utils"
-	"github.com/gin-gonic/gin"
 )
 
 func main() {
@@ -17,16 +13,7 @@ func main() {
 	ReadEnvVariables()
 
 	common.PrintInfo("Starting API")
-	InitAPI()
-}
-
-func InitAPI() {
-	router := gin.Default()
-	router.Use(middlewares.CORS())
-
-	router.GET("/hello", handlers.HelloHandler)
-
-	router.Run(fmt.Sprintf(":%d", common.API_PORT))
+	api.InitAPI()
 }
 
 func ReadEnvVariables() {
