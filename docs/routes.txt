@@ -2,7 +2,7 @@
 /account/new
 /account/details
 /account/edit
-/account/delete
+/account/soft-delete
 /account/restore
 
 [*] User Settings
