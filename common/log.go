@@ -16,6 +16,11 @@ const (
 	colorWhite  = "\033[37m"
 )
 
+func PrintStartMethod(s string) {
+	fmt.Println("")
+	PrintInfo(fmt.Sprintf("Received %s request", s))
+}
+
 func PrintInfo(s string) {
 	s = fmt.Sprintf("%s[*] %s%s", string(colorBlue), s, string(colorReset))
 	fmt.Println(s)

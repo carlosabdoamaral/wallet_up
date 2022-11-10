@@ -9,7 +9,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func InitAPI() {
+func Init() {
 	common.Router = gin.Default()
 	common.Router.Use(middlewares.CORS())
 
@@ -22,7 +22,7 @@ func MakeRoutes() {
 	// ACCOUNT
 	account := common.Router.Group("/account")
 	account.POST("/new", handlers.NewAccountHandler)
-	account.GET("/details", handlers.AccountDetailsHandler)
+	account.POST("/details", handlers.AccountDetailsHandler)
 	account.PUT("/edit", handlers.EditAccountHandler)
 	account.DELETE("/delete", handlers.DeleteAccountHandler)
 	account.POST("/restore", handlers.RestoreAccountHandler)

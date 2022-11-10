@@ -2,19 +2,19 @@ package handlers
 
 import (
 	"encoding/json"
-	"fmt"
 	"io/ioutil"
 	"net/http"
 
 	"github.com/carlosabdoamaral/wallet_up/common"
+	"github.com/carlosabdoamaral/wallet_up/internal/db"
 	"github.com/carlosabdoamaral/wallet_up/internal/models"
 	"github.com/carlosabdoamaral/wallet_up/internal/rabbit/producer"
+	"github.com/carlosabdoamaral/wallet_up/internal/utils"
 	"github.com/gin-gonic/gin"
 )
 
 func NewAccountHandler(c *gin.Context) {
-	fmt.Println("")
-	common.PrintInfo("Received NewAccount request!")
+	common.PrintStartMethod("NewAccountHandler")
 
 	body, err := ioutil.ReadAll(c.Request.Body)
 	if err != nil {
@@ -40,10 +40,32 @@ func NewAccountHandler(c *gin.Context) {
 		c.IndentedJSON(http.StatusInternalServerError, err.Error())
 	}
 	common.PrintSuccess("Success sending message to RabbitMQ")
-	
+
 }
 
-func AccountDetailsHandler(c *gin.Context) {}
+func AccountDetailsHandler(c *gin.Context) {
+	common.PrintStartMethod("AccountDetails")
+
+	body, err := ioutil.ReadAll(c.Request.Body)
+	utils.CheckErr(err, false, "Error trying to read body")
+	common.PrintSuccess("Success reading body")
+
+	accountId := &models.AccountDetailsRequest{}
+	err = json.Unmarshal(body, &accountId)
+	err = utils.CheckErr(err, false, "Error trying to unmarshal JSON")
+	if err != nil {
+		c.IndentedJSON(http.StatusInternalServerError, err.Error())
+	}
+	common.PrintSuccess("Success tring to unmarshal body")
+
+	res, err := db.AccountDetails(accountId)
+	if err != nil {
+		c.IndentedJSON(http.StatusInternalServerError, err.Error())
+		return
+	}
+
+	c.IndentedJSON(http.StatusOK, res)
+}
 
 func EditAccountHandler(c *gin.Context) {}
 

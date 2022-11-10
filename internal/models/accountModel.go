@@ -51,3 +51,7 @@ type NewAccountRequest struct {
 	Ddd           string `json:"ddd,omitempty"                db:"ddd"`
 	Phone         string `json:"phone,omitempty"              db:"phone"`
 }
+
+type AccountDetailsRequest struct {
+	AccountId int64 `json:"account_id,omitempty"     db:"id"`
+}

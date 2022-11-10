@@ -8,7 +8,7 @@ import (
 
 func main() {
 	cmd.DefaultInit()
-	
+
 	common.PrintInfo("Starting API")
-	api.InitAPI()
+	api.Init()
 }
