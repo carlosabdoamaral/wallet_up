@@ -30,10 +30,11 @@ var (
 )
 
 var (
-	RABBIT_URL       = ""
-	RABBIT_QUEUENAME = ""
-	RABBIT_CONN      = &amqp.Connection{}
-	RABBIT_CHANNEL   = &amqp.Channel{}
-	RABBIT_QUEUE     = &amqp.Queue{}
-	RABBIT_PORT      = ""
+	RABBIT_URL  = ""
+	RABBIT_PORT = ""
+
+	RabbitConn      = &amqp.Connection{}
+	RabbitChannel   = &amqp.Channel{}
+	RabbitQueue     = &amqp.Queue{}
+	RabbitQueueName = ""
 )

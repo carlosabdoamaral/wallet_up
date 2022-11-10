@@ -2,7 +2,7 @@ package models
 
 import "time"
 
-type UserModel struct {
+type AccountModel struct {
 	Id            int64     `json:"id,omitempty"            db:"id"`
 	IdNationality int64     `json:"idNationality,omitempty" db:"id_nationality"`
 	IdConfig      int64     `json:"idConfig,omitempty"        db:"id_config"`
@@ -18,7 +18,7 @@ type UserModel struct {
 	Deleted       bool      `json:"deleted,omitempty"       db:"deleted"`
 }
 
-type UserDetails struct {
+type AccountDetails struct {
 	Id                int64  `json:"id,omitempty"                 db:"id"`
 	Firstname         string `json:"first_name,omitempty"          db:"first_name"`
 	Lastname          string `json:"last_name,omitempty"          db:"last_name"`
@@ -38,4 +38,16 @@ type UserDetails struct {
 	AlertOnMobile     bool   `json:"alert_on_mobile,omitempty"    db:"config_alert_on_mobile"`
 	AppLanguage       string `json:"app_language,omitempty"       db:"config_language"`
 	AppLanguageKey    string `json:"app_language_key,omitempty"   db:"config_language_key"`
+}
+
+type NewAccountRequest struct {
+	IdNationality int64  `json:"id_nationality,omitempty"     db:"id_nationality"`
+	IdConfig      int64  `json:"id_config,omitempty"            db:"id_config"`
+	Firstname     string `json:"first_name,omitempty"          db:"first_name"`
+	Lastname      string `json:"last_name,omitempty"          db:"last_name"`
+	Email         string `json:"email,omitempty"              db:"email"`
+	Password      string `json:"password,omitempty"           db:"password"`
+	PhonePrefix   string `json:"phone_prefix,omitempty"         db:"phone_prefix"`
+	Ddd           string `json:"ddd,omitempty"                db:"ddd"`
+	Phone         string `json:"phone,omitempty"              db:"phone"`
 }

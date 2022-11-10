@@ -13,6 +13,8 @@ func InitAPI() {
 	common.Router = gin.Default()
 	common.Router.Use(middlewares.CORS())
 
+	MakeRoutes()
+
 	common.Router.Run(fmt.Sprintf(":%d", common.API_PORT))
 }
 

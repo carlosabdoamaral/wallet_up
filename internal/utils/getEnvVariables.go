@@ -1,9 +1,10 @@
 package utils
 
 import (
+	"os"
+
 	"github.com/carlosabdoamaral/wallet_up/common"
 	"github.com/joho/godotenv"
-	"os"
 )
 
 func GetEnvVariables() error {
@@ -21,7 +22,7 @@ func GetEnvVariables() error {
 	common.DB_DRIVER = os.Getenv("DB_DRIVER")
 
 	common.RABBIT_URL = os.Getenv("RABBIT_URL")
-	common.RABBIT_QUEUENAME = os.Getenv("RABBIT_QUEUENAME")
+	common.RabbitQueueName = os.Getenv("RABBIT_QUEUENAME")
 
 	return nil
 }
