@@ -62,9 +62,9 @@ func AccountDetailsHandler(c *gin.Context) {
 	if err != nil {
 		c.IndentedJSON(http.StatusInternalServerError, err.Error())
 		return
+	} else {
+		c.IndentedJSON(http.StatusOK, res)
 	}
-
-	c.IndentedJSON(http.StatusOK, res)
 }
 
 func EditAccountHandler(c *gin.Context) {}
