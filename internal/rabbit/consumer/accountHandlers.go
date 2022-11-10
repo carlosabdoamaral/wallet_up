@@ -32,3 +32,16 @@ func EditAccountHandler(m *amqp.Delivery) {
 
 	db.EditAccount(account)
 }
+
+func SoftDeleteAccountHandler(m *amqp.Delivery) {
+	common.PrintInfo("[RABBIT] SoftDeleteAccountHandler")
+
+	accountID := &models.AccountId{}
+	err := json.Unmarshal(m.Body, &accountID)
+	if err != nil {
+		common.PrintError("Error while unmarshaling JSON")
+		return
+	}
+
+	db.SoftDeleteAccount(accountID)
+}

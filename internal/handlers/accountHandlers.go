@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"encoding/json"
+	"errors"
 	"io/ioutil"
 	"net/http"
 
@@ -50,7 +51,7 @@ func AccountDetailsHandler(c *gin.Context) {
 	utils.CheckErr(err, false, "Error trying to read body")
 	common.PrintSuccess("Success reading body")
 
-	accountId := &models.AccountDetailsRequest{}
+	accountId := &models.AccountId{}
 	err = json.Unmarshal(body, &accountId)
 	err = utils.CheckErr(err, false, "Error trying to unmarshal JSON")
 	if err != nil {
@@ -89,7 +90,36 @@ func EditAccountHandler(c *gin.Context) {
 	producer.SendMessage(body, "EDITACCOUNT")
 }
 
-func DeleteAccountHandler(c *gin.Context) {}
+func SoftDeleteAccountHandler(c *gin.Context) {
+	common.PrintStartMethod("SoftDeleteAccountHandler")
+
+	body, err := ioutil.ReadAll(c.Request.Body)
+	if err != nil {
+		common.PrintError(err.Error())
+		c.IndentedJSON(http.StatusInternalServerError, err.Error())
+		return
+	}
+	common.PrintSuccess("Success reading body")
+
+	accountID := &models.AccountId{}
+	err = json.Unmarshal(body, &accountID)
+	if err != nil {
+		common.PrintError(err.Error())
+		c.IndentedJSON(http.StatusInternalServerError, err.Error())
+		return
+	}
+	common.PrintSuccess("Success unmarshaling body")
+
+	if accountID.AccountId <= 0 {
+		err = errors.New("account ID must be greater than 0")
+		common.PrintError(err.Error())
+		c.IndentedJSON(http.StatusInternalServerError, err.Error())
+		return
+	}
+	common.PrintSuccess("AccountID value is ok!")
+
+	producer.SendMessage(body, "SOFTDELETEACCOUNT")
+}
 
 func RestoreAccountHandler(c *gin.Context) {}
 

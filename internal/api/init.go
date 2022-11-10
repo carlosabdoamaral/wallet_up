@@ -24,7 +24,7 @@ func MakeRoutes() {
 	account.POST("/new", handlers.NewAccountHandler)
 	account.POST("/details", handlers.AccountDetailsHandler)
 	account.PUT("/edit", handlers.EditAccountHandler)
-	account.DELETE("/delete", handlers.DeleteAccountHandler)
+	account.DELETE("/soft-delete", handlers.SoftDeleteAccountHandler)
 	account.POST("/restore", handlers.RestoreAccountHandler)
 
 	// SETTINGS

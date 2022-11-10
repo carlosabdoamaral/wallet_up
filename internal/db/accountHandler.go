@@ -53,6 +53,8 @@ var (
 	SET id_language = $1, id_currency = $2, theme = $3, biometry_activated = $4, receive_alert_on_email = $5, receive_alert_on_mobile = $6
 	WHERE app_config_tb.id = $7;
 	`
+
+	SoftDeleteAccountQuery = `UPDATE user_tb SET deleted = true WHERE id = $1;`
 )
 
 func NewAccount(m *models.NewAccountRequest) {
@@ -64,7 +66,7 @@ func NewAccount(m *models.NewAccountRequest) {
 	common.PrintSuccess("Account created!")
 }
 
-func AccountDetails(m *models.AccountDetailsRequest) (*models.AccountDetails, error) {
+func AccountDetails(m *models.AccountId) (*models.AccountDetails, error) {
 	db := common.Database
 	result := &models.AccountDetails{}
 
@@ -142,5 +144,14 @@ func EditAccount(m *models.EditAccountRequest) {
 		common.PrintError(err.Error())
 		return
 	}
+}
 
+func SoftDeleteAccount(m *models.AccountId) {
+	common.PrintInfo("[DB] SoftDeleteAccount")
+	db := common.Database
+
+	_, err := db.Exec(SoftDeleteAccountQuery, m.AccountId)
+	if err != nil {
+		common.PrintError(err.Error())
+	}
 }

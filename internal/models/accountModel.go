@@ -49,7 +49,7 @@ type NewAccountRequest struct {
 	Phone         string `json:"phone,omitempty"              db:"phone"`
 }
 
-type AccountDetailsRequest struct {
+type AccountId struct {
 	AccountId int64 `json:"account_id,omitempty"     db:"id"`
 }
 
