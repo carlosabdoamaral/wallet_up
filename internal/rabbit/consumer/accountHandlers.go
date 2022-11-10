@@ -20,3 +20,15 @@ func NewAccountHandler(m *amqp.Delivery) {
 
 	db.NewAccount(account)
 }
+
+func EditAccountHandler(m *amqp.Delivery) {
+	account := &models.EditAccountRequest{}
+
+	err := json.Unmarshal(m.Body, &account)
+	if err != nil {
+		common.PrintError("Error while unmarshaling JSON")
+		return
+	}
+
+	db.EditAccount(account)
+}

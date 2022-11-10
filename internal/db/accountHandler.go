@@ -29,6 +29,7 @@ var (
 		cf.biometry_activated as config_biometry_activated,
 		cf.receive_alert_on_email as config_alert_on_email,
 		cf.receive_alert_on_mobile as config_alert_on_mobile,
+		ct_b.id as config_language_id,
 		ct_b.name as config_language,
 		ct_b.language_key as config_language_key
 	FROM
@@ -40,6 +41,17 @@ var (
 	
 	WHERE
 		user_tb.id = $1
+	`
+
+	EditAccountQuery = `
+	UPDATE user_tb
+	SET id_nationality = $1, first_name = $2, last_name  = $3, email = $4, password = $5, phone_prefix = $6, ddd = $7, phone = $8, updated_at = now(), deleted = $9
+	WHERE user_tb.id = $10;`
+
+	EditConfigQuery = `
+	UPDATE app_config_tb
+	SET id_language = $1, id_currency = $2, theme = $3, biometry_activated = $4, receive_alert_on_email = $5, receive_alert_on_mobile = $6
+	WHERE app_config_tb.id = $7;
 	`
 )
 
@@ -65,29 +77,70 @@ func AccountDetails(m *models.AccountDetailsRequest) (*models.AccountDetails, er
 	for rows.Next() {
 		account := &models.AccountDetails{}
 		rows.Scan(
-			&account.Id,
-			&account.Firstname,
-			&account.Lastname,
-			&account.Email,
-			&account.Password,
-			&account.PhonePrefix,
-			&account.Ddd,
-			&account.Phone,
-			&account.Deleted,
-			&account.IdNationality,
-			&account.NationalityName,
-			&account.NationalityKey,
-			&account.IdConfig,
-			&account.AppTheme,
-			&account.BiometryActivated,
-			&account.AlertOnEmail,
-			&account.AlertOnMobile,
-			&account.AppLanguage,
-			&account.AppLanguageKey,
+			&account.Account.Id,
+			&account.Account.Firstname,
+			&account.Account.Lastname,
+			&account.Account.Email,
+			&account.Account.Password,
+			&account.Account.PhonePrefix,
+			&account.Account.Ddd,
+			&account.Account.Phone,
+			&account.Account.Deleted,
+			&account.Account.IdNationality,
+			&account.Account.NationalityName,
+			&account.Account.NationalityKey,
+			&account.Config.IdConfig,
+			&account.Config.AppTheme,
+			&account.Config.BiometryActivated,
+			&account.Config.AlertOnEmail,
+			&account.Config.AlertOnMobile,
+			&account.Config.AppLanguageId,
+			&account.Config.AppLanguage,
+			&account.Config.AppLanguageKey,
 		)
 
 		result = account
 	}
 
 	return result, nil
+}
+
+func EditAccount(m *models.EditAccountRequest) {
+	db := common.Database
+	account := m.Account
+	config := m.Config
+
+	_, err := db.Exec(
+		EditAccountQuery,
+		account.IdNationality,
+		account.Firstname,
+		account.Lastname,
+		account.Email,
+		account.Password,
+		account.PhonePrefix,
+		account.Ddd,
+		account.Phone,
+		account.Deleted,
+		account.Id,
+	)
+	if err != nil {
+		common.PrintError(err.Error())
+		return
+	}
+
+	_, err = db.Exec(
+		EditConfigQuery,
+		config.Id_language,
+		config.Id_currency,
+		config.Theme,
+		config.BiometryActivated,
+		config.AlertOnEmail,
+		config.AlertOnMobile,
+		config.Id,
+	)
+	if err != nil {
+		common.PrintError(err.Error())
+		return
+	}
+
 }

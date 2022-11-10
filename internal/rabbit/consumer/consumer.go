@@ -30,6 +30,8 @@ func Start() {
 			switch m.Type {
 			case "NEWACCOUNT":
 				NewAccountHandler(&m)
+			case "EDITACCOUNT":
+				EditAccountHandler(&m)
 			}
 		}
 	}()

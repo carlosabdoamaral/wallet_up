@@ -64,10 +64,30 @@ func AccountDetailsHandler(c *gin.Context) {
 		return
 	} else {
 		c.IndentedJSON(http.StatusOK, res)
+		return
 	}
 }
 
-func EditAccountHandler(c *gin.Context) {}
+func EditAccountHandler(c *gin.Context) {
+	common.PrintStartMethod("EditAccount")
+
+	body, err := utils.ReadBody(c)
+	if err != nil {
+		c.IndentedJSON(http.StatusInternalServerError, err.Error())
+		return
+	}
+	common.PrintSuccess("Success reading body")
+
+	newAccount := &models.EditAccountRequest{}
+	err = json.Unmarshal(body, &newAccount)
+	if err != nil {
+		c.IndentedJSON(http.StatusInternalServerError, err.Error())
+		return
+	}
+	common.PrintSuccess("Success tring to unmarshal body")
+
+	producer.SendMessage(body, "EDITACCOUNT")
+}
 
 func DeleteAccountHandler(c *gin.Context) {}
 
