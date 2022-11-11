@@ -6,15 +6,16 @@ import (
 	"github.com/carlosabdoamaral/wallet_up/common"
 	"github.com/carlosabdoamaral/wallet_up/internal/db"
 	"github.com/carlosabdoamaral/wallet_up/internal/models"
+	pb "github.com/carlosabdoamaral/wallet_up/protodefs/gen/proto"
 	"github.com/streadway/amqp"
+	"google.golang.org/protobuf/encoding/protojson"
 )
 
 func NewAccountHandler(m *amqp.Delivery) {
-	account := &models.NewAccountRequest{}
-
-	err := json.Unmarshal(m.Body, &account)
+	account := &pb.NewAccountRequest{}
+	err := protojson.Unmarshal(m.Body, account)
 	if err != nil {
-		common.PrintError("Error while unmarshaling JSON")
+		common.PrintError(err.Error())
 		return
 	}
 

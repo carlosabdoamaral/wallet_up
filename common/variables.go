@@ -3,8 +3,10 @@ package common
 import (
 	"database/sql"
 
+	pb "github.com/carlosabdoamaral/wallet_up/protodefs/gen/proto"
 	"github.com/gin-gonic/gin"
 	"github.com/streadway/amqp"
+	"google.golang.org/grpc"
 )
 
 var (
@@ -37,4 +39,12 @@ var (
 	RabbitChannel   = &amqp.Channel{}
 	RabbitQueue     = &amqp.Queue{}
 	RabbitQueueName = ""
+)
+
+var (
+	GrpcServer             = &grpc.Server{}
+	GrpcConn               = &grpc.ClientConn{}
+	AccountServiceClient   = pb.NewAccountServiceClient(GrpcConn)
+	AppConfigServiceClient = pb.NewAppConfigServiceClient(GrpcConn)
+	WalletServiceClient    = pb.NewWalletServiceClient(GrpcConn)
 )

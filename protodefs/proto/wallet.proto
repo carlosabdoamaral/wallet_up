@@ -1,0 +1,60 @@
+syntax = "proto3";
+package proto;
+option go_package = "./proto";
+
+import "google/protobuf/timestamp.proto";
+import "generic.proto";
+
+service WalletService {
+    rpc Create(CreateWalletRequest) returns(WalletDetails) {};
+    rpc Details(Id) returns(WalletDetails) {};
+    rpc Edit(EditWalletRequest) returns(WalletDetails) {};
+    rpc Delete(Id) returns(StatusResponse) {};
+    rpc Share(ShareWallet) returns(StatusResponse) {};
+    rpc Unshare(UnshareWallet) returns(StatusResponse) {};
+    rpc Deposit(WalletTransactionDetails) returns(StatusResponse) {};
+    rpc Withdraw(WalletTransactionDetails) returns(StatusResponse) {};
+}
+
+message WalletTransactionDetails {
+	int64 WalletId = 1;     
+	string Type = 2;    
+	float Value = 3;   
+	string Currency = 4;    
+	string Description = 5;    
+	google.protobuf.Timestamp DepositedAt = 6; 
+}
+
+message ShareWallet {
+    int64 IdWallet = 1;
+	string ShareWith = 2;
+}
+
+message UnshareWallet {
+    int64 IdWallet = 1;
+	string UnshareWith = 2;
+}
+
+message WalletDetails {
+    int64    Id = 1;
+    int64    IdUser = 2;
+    string   Name = 3;
+    string   Description = 4;
+    google.protobuf.Timestamp CreatedAt = 6;
+    google.protobuf.Timestamp UpdatedAt = 7;
+    bool     Deleted = 8;
+    repeated ShareWallet SharedWith = 9;
+}
+
+message EditWalletRequest {
+    int64    IdUser = 1;
+    string   Name = 2;
+    string   Description = 3;
+}
+
+message CreateWalletRequest {
+    int64    IdUser = 1;
+    string   Name = 2;
+    string   Description = 3;
+    repeated ShareWallet SharedWith = 4;
+}

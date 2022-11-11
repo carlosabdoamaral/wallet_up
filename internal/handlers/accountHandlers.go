@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"context"
 	"encoding/json"
 	"errors"
 	"io/ioutil"
@@ -11,6 +12,7 @@ import (
 	"github.com/carlosabdoamaral/wallet_up/internal/models"
 	"github.com/carlosabdoamaral/wallet_up/internal/rabbit/producer"
 	"github.com/carlosabdoamaral/wallet_up/internal/utils"
+	pb "github.com/carlosabdoamaral/wallet_up/protodefs/gen/proto"
 	"github.com/gin-gonic/gin"
 )
 
@@ -24,24 +26,21 @@ func NewAccountHandler(c *gin.Context) {
 	}
 	common.PrintSuccess("Success Reading body")
 
-	// TODO: Validar se o body esta vazio ou não de fato
-	account := &models.NewAccountRequest{}
-	err = json.Unmarshal(body, &account)
+	model := &pb.NewAccountRequest{}
+	err = json.Unmarshal(body, &model)
 	if err != nil {
-		common.PrintError("Error unmarshalling body")
 		common.PrintError(err.Error())
-		c.IndentedJSON(http.StatusBadRequest, err.Error())
+		return
 	}
-	common.PrintSuccess("Success unmarshalling body")
 
-	err = producer.SendMessage(body, "NewAccount")
+	res, err := common.AccountServiceClient.Create(context.Background(), model)
 	if err != nil {
-		common.PrintError("Error sending message to rabbitmq")
 		common.PrintError(err.Error())
 		c.IndentedJSON(http.StatusInternalServerError, err.Error())
+		return
 	}
-	common.PrintSuccess("Success sending message to RabbitMQ")
 
+	c.IndentedJSON(http.StatusOK, res.GetStatus())
 }
 
 func AccountDetailsHandler(c *gin.Context) {

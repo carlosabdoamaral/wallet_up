@@ -30,7 +30,7 @@ func MakeRoutes() {
 	// SETTINGS
 	accountSettings := account.Group("/settings")
 	accountSettings.GET("/details", handlers.AccountSettingsDetailsHandler)
-	accountSettings.PUT("/new", handlers.EditAccountSettingsHandler)
+	accountSettings.POST("/new", handlers.EditAccountSettingsHandler)
 
 	// WALLET
 	wallet := common.Router.Group("/wallet")

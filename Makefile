@@ -3,3 +3,6 @@ api:
 
 rabbit:
 	go run cmd/rabbit/main.go
+
+grpc:
+	go run cmd/grpc/main.go

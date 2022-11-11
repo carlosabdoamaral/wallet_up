@@ -8,16 +8,19 @@ import (
 )
 
 func DefaultInit() {
-	common.PrintInfo("Starting...")
+	common.PrintStartMethod("Starting...")
 
-	common.PrintInfo("Reading .env")
+	common.PrintInfo("[ENV] Reading...")
 	ReadEnvVariables()
+	common.PrintSuccess("[ENV] Success...")
 
-	common.PrintInfo("Connecting to RabbitMQ")
+	common.PrintInfo("[AMQP] Connecting...")
 	rabbit.Connect()
+	common.PrintSuccess("[AMQP] Success...")
 
-	common.PrintInfo("Connecting to database")
+	common.PrintInfo("[DB] Connecting...")
 	db.Init()
+	common.PrintSuccess("[DB] Success...")
 }
 
 func ReadEnvVariables() {

@@ -7,6 +7,7 @@ import (
 	"github.com/carlosabdoamaral/wallet_up/common"
 	"github.com/carlosabdoamaral/wallet_up/internal/models"
 	"github.com/carlosabdoamaral/wallet_up/internal/utils"
+	pb "github.com/carlosabdoamaral/wallet_up/protodefs/gen/proto"
 )
 
 var (
@@ -57,7 +58,7 @@ var (
 	SoftDeleteAccountQuery = `UPDATE user_tb SET deleted = true WHERE id = $1;`
 )
 
-func NewAccount(m *models.NewAccountRequest) {
+func NewAccount(m *pb.NewAccountRequest) {
 	db := common.Database
 
 	_, err := db.Exec(NewAccountQuery, m.IdNationality, m.Firstname, m.Lastname, m.Email, m.Password, m.PhonePrefix, m.Ddd, m.Phone)

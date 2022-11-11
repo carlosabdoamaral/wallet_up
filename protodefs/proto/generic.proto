@@ -1,0 +1,11 @@
+syntax = "proto3";
+package proto;
+option go_package = "./proto";
+
+message StatusResponse {
+    string status = 1;
+}
+
+message Id {
+    int64 Id = 1;
+}

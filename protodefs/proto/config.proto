@@ -1,0 +1,40 @@
+syntax = "proto3";
+package proto;
+option go_package = "./proto";
+
+import "generic.proto";
+
+service AppConfigService {
+	rpc Create(NewAppConfigRequest) returns (AppConfig) {};
+	rpc Details(AppConfig) returns (StatusResponse) {};
+}
+
+message AppConfigDetails {
+    int64 IdConfig          = 1;
+	string AppTheme        = 2;
+	bool BiometryActivated = 3;
+	bool AlertOnEmail      = 4;
+	string AlertOnMobile   = 5;
+	int64 AppLanguageId    = 6;
+	string AppLanguage     = 7;
+	string AppLanguageKey  = 8;
+}
+
+message AppConfig {
+    int64 Id               = 1;
+	int64 Id_language      = 2;
+	int64 Id_currency      = 3;
+	string Theme           = 4;
+	bool BiometryActivated = 5;
+	bool AlertOnEmail      = 6;
+	bool AlertOnMobile     = 7;
+}
+
+message NewAppConfigRequest {
+	int64 Id_language      = 1;
+	int64 Id_currency      = 2;
+	string Theme           = 3;
+	bool BiometryActivated = 4;
+	bool AlertOnEmail      = 5;
+	bool AlertOnMobile     = 6;
+}
