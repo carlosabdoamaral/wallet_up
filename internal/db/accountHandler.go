@@ -68,7 +68,6 @@ func AccountDetails(m *pb.Id) (*pb.AccountDetailsResponse, error) {
 	common.PrintInfo("[DB] AccountDetails")
 
 	db := common.Database
-	result := &pb.AccountDetailsResponse{}
 	account := &models.AccountDetailsResponse{}
 
 	rows := db.QueryRow(AccountDetailsQuery, m.GetId())
