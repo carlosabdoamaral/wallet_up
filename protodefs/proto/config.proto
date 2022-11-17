@@ -21,13 +21,12 @@ message AppConfigDetails {
 }
 
 message AppConfig {
-    int64 Id               = 1;
-	int64 Id_language      = 2;
-	int64 Id_currency      = 3;
-	string Theme           = 4;
-	bool BiometryActivated = 5;
-	bool AlertOnEmail      = 6;
-	bool AlertOnMobile     = 7;
+	int64 Id_language      = 1;
+	int64 Id_currency      = 2;
+	string Theme           = 3;
+	bool BiometryActivated = 4;
+	bool AlertOnEmail      = 5;
+	bool AlertOnMobile     = 6;
 }
 
 message NewAppConfigRequest {

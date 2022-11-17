@@ -122,23 +122,23 @@ func AccountDetails(m *pb.Id) (*pb.AccountDetailsResponse, error) {
 	}, nil
 }
 
-func EditAccount(m *models.EditAccountRequest) {
+func EditAccount(m *pb.EditAccountRequest) {
 	db := common.Database
 	account := m.Account
 	config := m.Config
 
 	_, err := db.Exec(
 		EditAccountQuery,
-		account.IdNationality,
-		account.Firstname,
-		account.Lastname,
-		account.Email,
-		account.Password,
-		account.PhonePrefix,
-		account.Ddd,
-		account.Phone,
-		account.Deleted,
-		account.Id,
+		account.GetIdNationality(),
+		account.GetFirstname(),
+		account.GetLastname(),
+		account.GetEmail(),
+		account.GetPassword(),
+		account.GetPhonePrefix(),
+		account.GetDdd(),
+		account.GetPhone(),
+		account.GetDeleted(),
+		m.GetId(),
 	)
 	if err != nil {
 		common.PrintError(err.Error())
@@ -147,13 +147,13 @@ func EditAccount(m *models.EditAccountRequest) {
 
 	_, err = db.Exec(
 		EditConfigQuery,
-		config.Id_language,
-		config.Id_currency,
-		config.Theme,
-		config.BiometryActivated,
-		config.AlertOnEmail,
-		config.AlertOnMobile,
-		config.Id,
+		config.GetIdLanguage(),
+		config.GetIdCurrency(),
+		config.GetTheme(),
+		config.GetBiometryActivated(),
+		config.GetAlertOnEmail(),
+		config.GetAlertOnMobile(),
+		m.GetId(),
 	)
 	if err != nil {
 		common.PrintError(err.Error())

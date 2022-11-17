@@ -2,6 +2,7 @@ package grpc
 
 import (
 	"context"
+	"errors"
 
 	"github.com/carlosabdoamaral/wallet_up/common"
 	"github.com/carlosabdoamaral/wallet_up/internal/db"
@@ -22,7 +23,7 @@ func (s *AccountServer) Create(c context.Context, req *pb.NewAccountRequest) (*p
 	producer.SendMessage(body, "NEWACCOUNT")
 
 	return &pb.StatusResponse{
-		Status: "Good to go myman",
+		Status: "Success!",
 	}, nil
 }
 
@@ -35,5 +36,30 @@ func (s *AccountServer) Details(c context.Context, req *pb.Id) (*pb.AccountDetai
 		return nil, dbErr
 	}
 
+	if dbRes.Account.Id == 0 {
+		return nil, errors.New("account was not found")
+	}
+
 	return dbRes, nil
+}
+
+func (s *AccountServer) Edit(c context.Context, req *pb.EditAccountRequest) (*pb.StatusResponse, error) {
+	common.PrintStartMethod("[GRPC] EditAccount")
+
+	_, err := s.Details(c, &pb.Id{Id: req.GetId()})
+	if err != nil {
+		return nil, err
+	}
+
+	body, err := protojson.Marshal(req)
+	if err != nil {
+		common.PrintError(err.Error())
+		return nil, err
+	}
+
+	producer.SendMessage(body, "EDITACCOUNT")
+
+	return &pb.StatusResponse{
+		Status: "OK",
+	}, nil
 }

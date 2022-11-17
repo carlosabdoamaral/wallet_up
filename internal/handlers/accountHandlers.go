@@ -73,17 +73,18 @@ func EditAccountHandler(c *gin.Context) {
 		c.IndentedJSON(http.StatusInternalServerError, err.Error())
 		return
 	}
-	common.PrintSuccess("Success reading body")
 
-	newAccount := &models.EditAccountRequest{}
-	err = json.Unmarshal(body, &newAccount)
+	account := &pb.EditAccountRequest{}
+	err = json.Unmarshal(body, account)
 	if err != nil {
 		c.IndentedJSON(http.StatusInternalServerError, err.Error())
 		return
 	}
-	common.PrintSuccess("Success tring to unmarshal body")
+	common.PrintSuccess("Success trying to unmarshal body")
 
-	producer.SendMessage(body, "EDITACCOUNT")
+	common.AccountServiceClient.Edit(c, account)
+
+	c.IndentedJSON(http.StatusAccepted, "Success to append into queue!")
 }
 
 func SoftDeleteAccountHandler(c *gin.Context) {

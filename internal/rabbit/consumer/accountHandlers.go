@@ -23,9 +23,9 @@ func NewAccountHandler(m *amqp.Delivery) {
 }
 
 func EditAccountHandler(m *amqp.Delivery) {
-	account := &models.EditAccountRequest{}
+	account := &pb.EditAccountRequest{}
 
-	err := json.Unmarshal(m.Body, &account)
+	err := protojson.Unmarshal(m.Body, account)
 	if err != nil {
 		common.PrintError("Error while unmarshaling JSON")
 		return

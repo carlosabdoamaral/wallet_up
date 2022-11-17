@@ -47,19 +47,19 @@ message AccountDetailsResponse {
 }
 
 message EditAccountInfos {
-    int64 Id             = 1;
-	int64 IdNationality  = 2;
-	string Firstname     = 3;
-	string Lastname      = 4;
-	string Email         = 5;
-	string Password      = 6;
-	string PhonePrefix    = 7;
-	string Ddd           = 8;
-	string Phone         = 9;
-	bool Deleted         = 10;
+	int64 IdNationality  = 1;
+	string Firstname     = 2;
+	string Lastname      = 3;
+	string Email         = 4;
+	string Password      = 5;
+	string PhonePrefix    = 6;
+	string Ddd           = 7;
+	string Phone         = 8;
+	bool Deleted         = 9;
 }
 
 message EditAccountRequest {
-    EditAccountInfos account = 1;
-    AppConfig config           = 2;
+    int64 id = 1;
+    EditAccountInfos account = 2;
+    AppConfig config           = 3;
 }
