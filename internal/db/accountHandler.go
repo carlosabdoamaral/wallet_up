@@ -1,9 +1,6 @@
 package db
 
 import (
-	"database/sql"
-	"fmt"
-
 	"github.com/carlosabdoamaral/wallet_up/common"
 	"github.com/carlosabdoamaral/wallet_up/internal/models"
 	"github.com/carlosabdoamaral/wallet_up/internal/utils"
@@ -67,42 +64,62 @@ func NewAccount(m *pb.NewAccountRequest) {
 	common.PrintSuccess("Account created!")
 }
 
-func AccountDetails(m *models.AccountId) (*models.AccountDetails, error) {
+func AccountDetails(m *pb.Id) (*pb.AccountDetailsResponse, error) {
+	common.PrintInfo("[DB] AccountDetails")
+
 	db := common.Database
-	result := &models.AccountDetails{}
+	result := &pb.AccountDetailsResponse{}
+	account := &models.AccountDetailsResponse{}
 
-	rows, err := db.Query(AccountDetailsQuery, m.AccountId)
-	if err == sql.ErrNoRows {
-		fmt.Println("No rows were returned!")
-		return nil, err
-	}
+	rows := db.QueryRow(AccountDetailsQuery, m.GetId())
+	rows.Scan(
+		&account.Account.Id,
+		&account.Account.Firstname,
+		&account.Account.Lastname,
+		&account.Account.Email,
+		&account.Account.Password,
+		&account.Account.PhonePrefix,
+		&account.Account.Ddd,
+		&account.Account.Phone,
+		&account.Account.Deleted,
+		&account.Account.IdNationality,
+		&account.Account.NationalityName,
+		&account.Account.NationalityKey,
+		&account.Config.IdConfig,
+		&account.Config.AppTheme,
+		&account.Config.BiometryActivated,
+		&account.Config.AlertOnEmail,
+		&account.Config.AlertOnMobile,
+		&account.Config.AppLanguageId,
+		&account.Config.AppLanguage,
+		&account.Config.AppLanguageKey,
+	)
 
-	for rows.Next() {
-		account := &models.AccountDetails{}
-		rows.Scan(
-			&account.Account.Id,
-			&account.Account.Firstname,
-			&account.Account.Lastname,
-			&account.Account.Email,
-			&account.Account.Password,
-			&account.Account.PhonePrefix,
-			&account.Account.Ddd,
-			&account.Account.Phone,
-			&account.Account.Deleted,
-			&account.Account.IdNationality,
-			&account.Account.NationalityName,
-			&account.Account.NationalityKey,
-			&account.Config.IdConfig,
-			&account.Config.AppTheme,
-			&account.Config.BiometryActivated,
-			&account.Config.AlertOnEmail,
-			&account.Config.AlertOnMobile,
-			&account.Config.AppLanguageId,
-			&account.Config.AppLanguage,
-			&account.Config.AppLanguageKey,
-		)
-
-		result = account
+	result = &pb.AccountDetailsResponse{
+		Account: &pb.AccountDetails{
+			Id:              account.Account.Id,
+			Firstname:       account.Account.Firstname,
+			Lastname:        account.Account.Lastname,
+			Email:           account.Account.Email,
+			Password:        account.Account.Password,
+			PhonePrefix:     account.Account.PhonePrefix,
+			Ddd:             account.Account.Ddd,
+			Phone:           account.Account.Phone,
+			Deleted:         account.Account.Deleted,
+			IdNationality:   account.Account.IdNationality,
+			NationalityName: account.Account.NationalityName,
+			NationalityKey:  account.Account.NationalityKey,
+		},
+		Config: &pb.AppConfigDetails{
+			IdConfig:          account.Config.IdConfig,
+			AppTheme:          account.Config.AppTheme,
+			BiometryActivated: account.Config.BiometryActivated,
+			AlertOnEmail:      account.Config.AlertOnEmail,
+			AlertOnMobile:     account.Config.AlertOnMobile,
+			AppLanguageId:     account.Config.AppLanguageId,
+			AppLanguage:       account.Config.AppLanguage,
+			AppLanguageKey:    account.Config.AppLanguageKey,
+		},
 	}
 
 	return result, nil

@@ -4,6 +4,7 @@ import (
 	"context"
 
 	"github.com/carlosabdoamaral/wallet_up/common"
+	"github.com/carlosabdoamaral/wallet_up/internal/db"
 	"github.com/carlosabdoamaral/wallet_up/internal/rabbit/producer"
 	pb "github.com/carlosabdoamaral/wallet_up/protodefs/gen/proto"
 	"google.golang.org/protobuf/encoding/protojson"
@@ -23,4 +24,16 @@ func (s *AccountServer) Create(c context.Context, req *pb.NewAccountRequest) (*p
 	return &pb.StatusResponse{
 		Status: "Good to go myman",
 	}, nil
+}
+
+func (s *AccountServer) Details(c context.Context, req *pb.Id) (*pb.AccountDetailsResponse, error) {
+	common.PrintStartMethod("[GRPC] AccountDetails!")
+
+	dbRes, dbErr := db.AccountDetails(req)
+	if dbErr != nil {
+		common.PrintError(dbErr.Error())
+		return nil, dbErr
+	}
+
+	return dbRes, nil
 }

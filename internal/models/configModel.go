@@ -15,7 +15,7 @@ type AppConfigDetails struct {
 	AppTheme          string `json:"app_theme,omitempty"          db:"config_theme"`
 	BiometryActivated bool   `json:"biometry_activated,omitempty" db:"config_biometry_activated"`
 	AlertOnEmail      bool   `json:"alert_on_email,omitempty"     db:"config_alert_on_email"`
-	AlertOnMobile     string `json:"alert_on_mobile,omitempty"    db:"config_alert_on_mobile"`
+	AlertOnMobile     bool   `json:"alert_on_mobile,omitempty"    db:"config_alert_on_mobile"`
 	AppLanguageId     int64  `json:"app_language_id,omitempty"       db:"config_language_id"`
 	AppLanguage       string `json:"app_language,omitempty"       db:"config_language"`
 	AppLanguageKey    string `json:"app_language_key,omitempty"   db:"config_language_key"`

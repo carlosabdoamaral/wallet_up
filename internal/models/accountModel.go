@@ -2,55 +2,57 @@ package models
 
 import "time"
 
-type AccountModel struct {
-	Id            int64     `json:"id,omitempty"            db:"id"`
-	IdNationality int64     `json:"idNationality,omitempty" db:"id_nationality"`
-	IdConfig      int64     `json:"idConfig,omitempty"        db:"id_config"`
-	Firstname     string    `json:"firstname,omitempty"      db:"first_name"`
-	Lastname      string    `json:"lastname,omitempty"      db:"last_name"`
-	Email         string    `json:"email,omitempty"         db:"email"`
-	Password      string    `json:"password,omitempty"      db:"password"`
-	PhonePrefix   string    `json:"phonePrefix,omitempty"     db:"phone_prefix"`
-	Ddd           string    `json:"ddd,omitempty"           db:"ddd"`
-	Phone         string    `json:"phone,omitempty"         db:"phone"`
-	CreatedAt     time.Time `json:"createdAt,omitempty"     db:"created_at"`
-	UpdatedAt     time.Time `json:"updatedAt,omitempty"     db:"updated_at"`
-	Deleted       bool      `json:"deleted,omitempty"       db:"deleted"`
-}
+// REFATORAR COM BASE NO .proto
 
 type AccountDetails struct {
-	Account struct {
-		Id              int64  `json:"id,omitempty"                 db:"id"`
-		Firstname       string `json:"first_name,omitempty"          db:"first_name"`
-		Lastname        string `json:"last_name,omitempty"          db:"last_name"`
-		Email           string `json:"email,omitempty"              db:"email"`
-		Password        string `json:"password,omitempty"           db:"password"`
-		PhonePrefix     int64  `json:"phone_prefix,omitempty"         db:"phone_prefix"`
-		Ddd             string `json:"ddd,omitempty"                db:"ddd"`
-		Phone           string `json:"phone,omitempty"              db:"phone"`
-		Deleted         bool   `json:"deleted,omitempty"            db:"deleted"`
-		IdNationality   int64  `json:"id_nationality,omitempty"     db:"id_nationality"`
-		NationalityName string `json:"nationality,omitempty"        db:"nationality"`
-		NationalityKey  string `json:"nationality_key,omitempty"    db:"nationality_key"`
-	} `json:"account"`
-
-	Config AppConfigDetails `json:"config"`
+	Id              int64  `json:"id,omitempty"`
+	Firstname       string `json:"first_name,omitempty"`
+	Lastname        string `json:"last_name,omitempty"`
+	Email           string `json:"email,omitempty"`
+	Password        string `json:"password,omitempty"`
+	PhonePrefix     string `json:"phone_prefix,omitempty"`
+	Ddd             string `json:"ddd,omitempty"`
+	Phone           string `json:"phone,omitempty"`
+	Deleted         bool   `json:"deleted,omitempty"`
+	IdNationality   int64  `json:"id_nationality,omitempty"`
+	NationalityName string `json:"nationality,omitempty"`
+	NationalityKey  string `json:"nationality_key,omitempty"`
 }
 
+type AccountDetailsResponse struct {
+	Account AccountDetails   `json:"account"`
+	Config  AppConfigDetails `json:"config"`
+}
+
+type AccountModel struct {
+	Id            int64     `json:"id,omitempty"`
+	IdNationality int64     `json:"idNationality,omitempty"`
+	IdConfig      int64     `json:"idConfig,omitempty"`
+	Firstname     string    `json:"firstname,omitempty"`
+	Lastname      string    `json:"lastname,omitempty"`
+	Email         string    `json:"email,omitempty"`
+	Password      string    `json:"password,omitempty"`
+	PhonePrefix   string    `json:"phonePrefix,omitempty"`
+	Ddd           string    `json:"ddd,omitempty"`
+	Phone         string    `json:"phone,omitempty"`
+	CreatedAt     time.Time `json:"createdAt,omitempty"`
+	UpdatedAt     time.Time `json:"updatedAt,omitempty"`
+	Deleted       bool      `json:"deleted,omitempty"`
+}
 type NewAccountRequest struct {
-	IdNationality int64  `json:"id_nationality,omitempty"     db:"id_nationality"`
-	IdConfig      int64  `json:"id_config,omitempty"            db:"id_config"`
-	Firstname     string `json:"first_name,omitempty"          db:"first_name"`
-	Lastname      string `json:"last_name,omitempty"          db:"last_name"`
-	Email         string `json:"email,omitempty"              db:"email"`
-	Password      string `json:"password,omitempty"           db:"password"`
-	PhonePrefix   string `json:"phone_prefix,omitempty"         db:"phone_prefix"`
-	Ddd           string `json:"ddd,omitempty"                db:"ddd"`
-	Phone         string `json:"phone,omitempty"              db:"phone"`
+	IdNationality int64  `json:"id_nationality,omitempty"`
+	IdConfig      int64  `json:"id_config,omitempty"`
+	Firstname     string `json:"first_name,omitempty"`
+	Lastname      string `json:"last_name,omitempty"`
+	Email         string `json:"email,omitempty"`
+	Password      string `json:"password,omitempty"`
+	PhonePrefix   string `json:"phone_prefix,omitempty"`
+	Ddd           string `json:"ddd,omitempty"`
+	Phone         string `json:"phone,omitempty"`
 }
 
 type AccountId struct {
-	AccountId int64 `json:"account_id,omitempty"     db:"id"`
+	AccountId int64 `json:"account_id,omitempty"`
 }
 
 type EditAccountRequest struct {
@@ -59,14 +61,14 @@ type EditAccountRequest struct {
 }
 
 type EditAccountInfos struct {
-	Id            int64  `json:"id,omitempty"            db:"id"`
-	IdNationality int64  `json:"idNationality,omitempty" db:"id_nationality"`
-	Firstname     string `json:"firstname,omitempty"      db:"first_name"`
-	Lastname      string `json:"lastname,omitempty"      db:"last_name"`
-	Email         string `json:"email,omitempty"         db:"email"`
-	Password      string `json:"password,omitempty"      db:"password"`
-	PhonePrefix   string `json:"phonePrefix,omitempty"     db:"phone_prefix"`
-	Ddd           string `json:"ddd,omitempty"           db:"ddd"`
-	Phone         string `json:"phone,omitempty"         db:"phone"`
-	Deleted       bool   `json:"deleted,omitempty"       db:"deleted"`
+	Id            int64  `json:"id,omitempty"`
+	IdNationality int64  `json:"idNationality,omitempty"`
+	Firstname     string `json:"firstname,omitempty"`
+	Lastname      string `json:"lastname,omitempty"`
+	Email         string `json:"email,omitempty"`
+	Password      string `json:"password,omitempty"`
+	PhonePrefix   string `json:"phonePrefix,omitempty"`
+	Ddd           string `json:"ddd,omitempty"`
+	Phone         string `json:"phone,omitempty"`
+	Deleted       bool   `json:"deleted,omitempty"`
 }

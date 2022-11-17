@@ -8,7 +8,6 @@ import (
 	"net/http"
 
 	"github.com/carlosabdoamaral/wallet_up/common"
-	"github.com/carlosabdoamaral/wallet_up/internal/db"
 	"github.com/carlosabdoamaral/wallet_up/internal/models"
 	"github.com/carlosabdoamaral/wallet_up/internal/rabbit/producer"
 	"github.com/carlosabdoamaral/wallet_up/internal/utils"
@@ -50,22 +49,20 @@ func AccountDetailsHandler(c *gin.Context) {
 	utils.CheckErr(err, false, "Error trying to read body")
 	common.PrintSuccess("Success reading body")
 
-	accountId := &models.AccountId{}
+	accountId := &pb.Id{}
 	err = json.Unmarshal(body, &accountId)
-	err = utils.CheckErr(err, false, "Error trying to unmarshal JSON")
 	if err != nil {
 		c.IndentedJSON(http.StatusInternalServerError, err.Error())
 	}
 	common.PrintSuccess("Success tring to unmarshal body")
 
-	res, err := db.AccountDetails(accountId)
+	res, err := common.AccountServiceClient.Details(c.Request.Context(), accountId)
 	if err != nil {
 		c.IndentedJSON(http.StatusInternalServerError, err.Error())
 		return
-	} else {
-		c.IndentedJSON(http.StatusOK, res)
-		return
 	}
+
+	c.IndentedJSON(http.StatusOK, res)
 }
 
 func EditAccountHandler(c *gin.Context) {

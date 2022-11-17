@@ -14,7 +14,7 @@ message AppConfigDetails {
 	string AppTheme        = 2;
 	bool BiometryActivated = 3;
 	bool AlertOnEmail      = 4;
-	string AlertOnMobile   = 5;
+	bool AlertOnMobile   = 5;
 	int64 AppLanguageId    = 6;
 	string AppLanguage     = 7;
 	string AppLanguageKey  = 8;

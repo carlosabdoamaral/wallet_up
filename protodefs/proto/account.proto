@@ -32,7 +32,7 @@ message AccountDetails {
     string Lastname         = 3;
     string Email            = 4;
     string Password         = 5;
-    int64 PhonePrefix        = 6;
+    string PhonePrefix        = 6;
     string Ddd              = 7;
     string Phone            = 8;
     bool Deleted            = 9;

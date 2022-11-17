@@ -6,3 +6,6 @@ rabbit:
 
 grpc:
 	go run cmd/grpc/main.go
+
+docker:
+	cd docs/ && docker-compose up -d
