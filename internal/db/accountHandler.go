@@ -95,7 +95,7 @@ func AccountDetails(m *pb.Id) (*pb.AccountDetailsResponse, error) {
 		&account.Config.AppLanguageKey,
 	)
 
-	result = &pb.AccountDetailsResponse{
+	return &pb.AccountDetailsResponse{
 		Account: &pb.AccountDetails{
 			Id:              account.Account.Id,
 			Firstname:       account.Account.Firstname,
@@ -120,9 +120,7 @@ func AccountDetails(m *pb.Id) (*pb.AccountDetailsResponse, error) {
 			AppLanguage:       account.Config.AppLanguage,
 			AppLanguageKey:    account.Config.AppLanguageKey,
 		},
-	}
-
-	return result, nil
+	}, nil
 }
 
 func EditAccount(m *models.EditAccountRequest) {
