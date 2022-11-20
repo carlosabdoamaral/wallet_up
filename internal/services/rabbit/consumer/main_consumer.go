@@ -75,16 +75,6 @@ func Start() {
 			case "EDITTRANSACTION":
 				EditTransaction(&m)
 			}
-
-			// TODO: CATEGORY
-			switch m.Type {
-			case "CREATECATEGORY":
-				CreateCategory(&m)
-			case "EDITCATEGORY":
-				EditCategory(&m)
-			case "DELETECATEGORY":
-				DeleteCategory(&m)
-			}
 		}
 	}()
 

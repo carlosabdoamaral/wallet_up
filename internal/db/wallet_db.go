@@ -1,6 +1,8 @@
 package db
 
 import (
+	"fmt"
+
 	"github.com/carlosabdoamaral/wallet_up/common"
 	pb "github.com/carlosabdoamaral/wallet_up/protodefs/gen/proto"
 )
@@ -99,7 +101,7 @@ func WalletDetails(m *pb.Id) (*pb.WalletDetailsResponse, error) {
 
 	for rows.Next() {
 		t := &pb.TransactionDetails{}
-		rows.Scan(t.IdTransaction, t.IdUser, t.IdCurrency, t.CurrencyKey, t.TransactionType, t.Value, t.Description, t.DepositedAt)
+		rows.Scan(&t.IdTransaction, &t.IdUser, &t.IdCurrency, &t.CurrencyKey, &t.TransactionType, &t.Value, &t.Description, &t.DepositedAt)
 		res.Transactions = append(res.Transactions, t)
 	}
 
@@ -113,7 +115,7 @@ func WalletDetails(m *pb.Id) (*pb.WalletDetailsResponse, error) {
 
 	for rows.Next() {
 		t := &pb.SharedWith{}
-		rows.Scan(t.IdSharedWith, t.Email)
+		rows.Scan(&t.IdSharedWith, &t.Email)
 		res.SharedWithList = append(res.SharedWithList, t)
 	}
 
@@ -127,9 +129,10 @@ func WalletDetails(m *pb.Id) (*pb.WalletDetailsResponse, error) {
 
 	for rows.Next() {
 		t := &pb.WalletDetails{}
-		rows.Scan(t.Id, t.IdUser, t.Name, t.Description, t.CreatedAt, t.UpdatedAt, t.Deleted)
+		rows.Scan(&t.Id, &t.IdUser, &t.Name, &t.Description, &t.CreatedAt, &t.UpdatedAt, &t.Deleted)
 		res.WalletDetails = t
 	}
 
+	fmt.Println(res)
 	return res, nil
 }

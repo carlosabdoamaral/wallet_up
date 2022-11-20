@@ -47,13 +47,6 @@ func MakeRoutes() {
 	walletOperation.POST("/transaction/delete", DeleteTransaction)
 	walletOperation.PUT("/transaction/edit", EditTransaction)
 
-	// CATEGORY
-	category := common.Router.Group("/category")
-	category.POST("/create", CreateCategory)
-	category.PUT("/edit", EditCategory)
-	category.GET("/list", CategoryList)
-	category.DELETE("/delete", DeleteCategory)
-
 	// DASHBOARD
 	dashboard := common.Router.Group("/dashboard")
 	dashboard.GET("", DashboardDetails)

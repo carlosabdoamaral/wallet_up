@@ -21,10 +21,6 @@ type WalletServer struct {
 	pb.UnimplementedWalletServiceServer
 }
 
-type CategoryServer struct {
-	pb.UnimplementedCategoryServiceServer
-}
-
 type OperationServer struct {
 	pb.UnimplementedOperationServiceServer
 }
@@ -39,7 +35,6 @@ func InitServer() {
 	pb.RegisterAccountServiceServer(common.GrpcServer, &AccountServer{})
 	pb.RegisterAppConfigServiceServer(common.GrpcServer, &AppConfigServer{})
 	pb.RegisterWalletServiceServer(common.GrpcServer, &WalletServer{})
-	pb.RegisterCategoryServiceServer(common.GrpcServer, &CategoryServer{})
 	pb.RegisterOperationServiceServer(common.GrpcServer, &OperationServer{})
 
 	log.Printf("Server listening on %v", lis.Addr())

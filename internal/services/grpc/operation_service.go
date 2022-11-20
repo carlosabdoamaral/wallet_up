@@ -31,7 +31,9 @@ func (s *OperationServer) Deposit(c context.Context, req *pb.TransactionRequest)
 	}
 
 	producer.SendMessage(body, "DEPOSITWALLET")
-	return nil, nil
+	return &pb.StatusResponse{
+		Status: "Success!",
+	}, nil
 }
 
 func (s *OperationServer) Withdraw(c context.Context, req *pb.TransactionRequest) (*pb.StatusResponse, error) {
@@ -55,7 +57,9 @@ func (s *OperationServer) Withdraw(c context.Context, req *pb.TransactionRequest
 	}
 
 	producer.SendMessage(body, "WITHDRAWWALLET")
-	return nil, nil
+	return &pb.StatusResponse{
+		Status: "Success!",
+	}, nil
 }
 
 func (s *OperationServer) DeleteTransaction(c context.Context, req *pb.Id) (*pb.StatusResponse, error) {
@@ -71,7 +75,9 @@ func (s *OperationServer) DeleteTransaction(c context.Context, req *pb.Id) (*pb.
 	}
 
 	producer.SendMessage(body, "DELETETRANSACTION")
-	return nil, nil
+	return &pb.StatusResponse{
+		Status: "Success!",
+	}, nil
 }
 
 func (s *OperationServer) EditTransaction(c context.Context, req *pb.EditTransactionRequest) (*pb.StatusResponse, error) {
@@ -93,5 +99,7 @@ func (s *OperationServer) EditTransaction(c context.Context, req *pb.EditTransac
 	}
 
 	producer.SendMessage(body, "EDITTRANSACTION")
-	return nil, nil
+	return &pb.StatusResponse{
+		Status: "Success!",
+	}, nil
 }

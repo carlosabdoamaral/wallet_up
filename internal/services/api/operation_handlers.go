@@ -29,6 +29,7 @@ func Deposit(c *gin.Context) {
 		c.IndentedJSON(http.StatusInternalServerError, err.Error())
 		return
 	}
+
 	c.IndentedJSON(http.StatusOK, res)
 }
 

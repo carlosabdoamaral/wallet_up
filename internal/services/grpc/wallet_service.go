@@ -27,7 +27,9 @@ func (s *WalletServer) Create(c context.Context, req *pb.CreateWalletRequest) (*
 	}
 
 	producer.SendMessage(body, "CREATEWALLET")
-	return nil, nil
+	return &pb.StatusResponse{
+		Status: "Success!",
+	}, nil
 }
 
 func (s *WalletServer) Details(c context.Context, req *pb.Id) (*pb.WalletDetailsResponse, error) {
@@ -56,7 +58,9 @@ func (s *WalletServer) Edit(c context.Context, req *pb.EditWalletRequest) (*pb.S
 	}
 
 	producer.SendMessage(body, "EDITWALLET")
-	return nil, nil
+	return &pb.StatusResponse{
+		Status: "Success!",
+	}, nil
 }
 
 func (s *WalletServer) Delete(c context.Context, req *pb.Id) (*pb.StatusResponse, error) {
@@ -72,7 +76,9 @@ func (s *WalletServer) Delete(c context.Context, req *pb.Id) (*pb.StatusResponse
 	}
 
 	producer.SendMessage(body, "DELETEWALLET")
-	return nil, nil
+	return &pb.StatusResponse{
+		Status: "Success!",
+	}, nil
 }
 
 func (s *WalletServer) Share(c context.Context, req *pb.ShareWalletRequest) (*pb.StatusResponse, error) {
@@ -90,7 +96,9 @@ func (s *WalletServer) Share(c context.Context, req *pb.ShareWalletRequest) (*pb
 	}
 
 	producer.SendMessage(body, "SHAREWALLET")
-	return nil, nil
+	return &pb.StatusResponse{
+		Status: "Success!",
+	}, nil
 }
 
 func (s *WalletServer) UnShare(c context.Context, req *pb.UnShareWalletRequest) (*pb.StatusResponse, error) {
@@ -108,5 +116,7 @@ func (s *WalletServer) UnShare(c context.Context, req *pb.UnShareWalletRequest) 
 	}
 
 	producer.SendMessage(body, "UNSHAREWALLET")
-	return nil, nil
+	return &pb.StatusResponse{
+		Status: "Success!",
+	}, nil
 }
