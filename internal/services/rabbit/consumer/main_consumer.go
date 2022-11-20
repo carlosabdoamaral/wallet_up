@@ -26,6 +26,7 @@ func Start() {
 		for m := range msgs {
 			common.PrintSuccess(fmt.Sprintf("New request -> %s", m.Type))
 
+			// ACCOUNT
 			switch m.Type {
 			case "NEWACCOUNT":
 				NewAccountHandler(&m)
@@ -37,6 +38,16 @@ func Start() {
 				DeleteAccount(&m)
 			case "RESTOREACCOUNT":
 				RestoreAccountHandler(&m)
+			}
+
+			// CONFIG
+			switch m.Type {
+			case "CREATEAPPCONFIG":
+				CreateAppConfig(&m)
+			case "UPDATEAPPCONFIG":
+				UpdateAppConfig(&m)
+			case "DELETEAPPCONFIG":
+				DeleteAppConfig(&m)
 			}
 		}
 	}()

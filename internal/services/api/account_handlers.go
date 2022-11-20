@@ -118,7 +118,3 @@ func RestoreAccountHandler(c *gin.Context) {
 
 	c.IndentedJSON(http.StatusOK, res)
 }
-
-func AccountSettingsDetailsHandler(c *gin.Context) {}
-
-func EditAccountSettingsHandler(c *gin.Context) {}

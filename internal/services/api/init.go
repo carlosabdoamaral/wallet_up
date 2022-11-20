@@ -28,8 +28,10 @@ func MakeRoutes() {
 
 	// SETTINGS
 	accountSettings := account.Group("/settings")
-	accountSettings.GET("/details", AccountSettingsDetailsHandler)
-	accountSettings.POST("/new", EditAccountSettingsHandler)
+	accountSettings.POST("/new", CreateAppConfig)
+	accountSettings.PUT("/update", UpdateAppConfig)
+	accountSettings.POST("/details", AppConfigDetails)
+	accountSettings.DELETE("/delete", DeleteAppConfig)
 
 	// WALLET
 	wallet := common.Router.Group("/wallet")

@@ -5,24 +5,27 @@ option go_package = "./proto";
 import "generic.proto";
 
 service AppConfigService {
-	rpc Create(NewAppConfigRequest) returns (AppConfig) {};
-	rpc Details(AppConfig) returns (StatusResponse) {};
+	rpc Create(NewAppConfigRequest) returns (StatusResponse) {};
+	rpc Update(AppConfigDetails) returns (StatusResponse) {};
+	rpc Details(Id) returns (AppConfigDetails) {};
+	rpc Delete(Id) returns (StatusResponse) {};
 }
 
 message AppConfigDetails {
     int64 IdConfig          = 1;
-	string AppTheme        = 2;
-	bool BiometryActivated = 3;
-	bool AlertOnEmail      = 4;
-	bool AlertOnMobile   = 5;
-	int64 AppLanguageId    = 6;
-	string AppLanguage     = 7;
-	string AppLanguageKey  = 8;
+	int64 IdCurrency       = 2;
+	int64 IdLanguage       = 3;
+	string Theme           = 4;
+	bool BiometryActivated = 5;
+	bool AlertOnEmail      = 6;
+	bool AlertOnMobile     = 7;
+	string AppLanguage = 8;
+	string AppLanguageKey = 9;
 }
 
 message AppConfig {
-	int64 Id_language      = 1;
-	int64 Id_currency      = 2;
+	int64 IdLanguage       = 1;
+	int64 IdCurrency       = 2;
 	string Theme           = 3;
 	bool BiometryActivated = 4;
 	bool AlertOnEmail      = 5;
@@ -30,8 +33,8 @@ message AppConfig {
 }
 
 message NewAppConfigRequest {
-	int64 Id_language      = 1;
-	int64 Id_currency      = 2;
+	int64 IdLanguage       = 1;
+	int64 IdCurrency       = 2;
 	string Theme           = 3;
 	bool BiometryActivated = 4;
 	bool AlertOnEmail      = 5;

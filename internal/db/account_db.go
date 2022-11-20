@@ -109,11 +109,11 @@ func AccountDetails(m *pb.Id) (*pb.AccountDetailsResponse, error) {
 		},
 		Config: &pb.AppConfigDetails{
 			IdConfig:          account.Config.IdConfig,
-			AppTheme:          account.Config.AppTheme,
+			Theme:             account.Config.AppTheme,
 			BiometryActivated: account.Config.BiometryActivated,
 			AlertOnEmail:      account.Config.AlertOnEmail,
 			AlertOnMobile:     account.Config.AlertOnMobile,
-			AppLanguageId:     account.Config.AppLanguageId,
+			IdLanguage:        account.Config.AppLanguageId,
 			AppLanguage:       account.Config.AppLanguage,
 			AppLanguageKey:    account.Config.AppLanguageKey,
 		},

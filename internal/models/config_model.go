@@ -1,9 +1,9 @@
 package models
 
 type AppConfigModel struct {
-	Id                int64  `json:"id" db:"id"`
-	Id_language       int64  `json:"id_language" db:"id_language"`
-	Id_currency       int64  `json:"id_currency" db:"id_currency"`
+	IdConfig          int64  `json:"id" db:"id"`
+	IdCurrency        int64  `json:"id_currency" db:"id_currency"`
+	IdLanguage        int64  `json:"id_language" db:"id_language"`
 	Theme             string `json:"theme" db:"theme"`
 	BiometryActivated bool   `json:"biometry_activated" db:"biometry_activated"`
 	AlertOnEmail      bool   `json:"receive_alert_on_email" db:"receive_alert_on_email"`

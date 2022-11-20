@@ -13,7 +13,6 @@ import (
 )
 
 func (s *AccountServer) Create(c context.Context, req *pb.NewAccountRequest) (*pb.StatusResponse, error) {
-
 	body, err := protojson.Marshal(req)
 	if err != nil {
 		return nil, err

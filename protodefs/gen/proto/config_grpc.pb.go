@@ -22,8 +22,10 @@ const _ = grpc.SupportPackageIsVersion7
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type AppConfigServiceClient interface {
-	Create(ctx context.Context, in *NewAppConfigRequest, opts ...grpc.CallOption) (*AppConfig, error)
-	Details(ctx context.Context, in *AppConfig, opts ...grpc.CallOption) (*StatusResponse, error)
+	Create(ctx context.Context, in *NewAppConfigRequest, opts ...grpc.CallOption) (*StatusResponse, error)
+	Update(ctx context.Context, in *AppConfigDetails, opts ...grpc.CallOption) (*StatusResponse, error)
+	Details(ctx context.Context, in *Id, opts ...grpc.CallOption) (*AppConfigDetails, error)
+	Delete(ctx context.Context, in *Id, opts ...grpc.CallOption) (*StatusResponse, error)
 }
 
 type appConfigServiceClient struct {
@@ -34,8 +36,8 @@ func NewAppConfigServiceClient(cc grpc.ClientConnInterface) AppConfigServiceClie
 	return &appConfigServiceClient{cc}
 }
 
-func (c *appConfigServiceClient) Create(ctx context.Context, in *NewAppConfigRequest, opts ...grpc.CallOption) (*AppConfig, error) {
-	out := new(AppConfig)
+func (c *appConfigServiceClient) Create(ctx context.Context, in *NewAppConfigRequest, opts ...grpc.CallOption) (*StatusResponse, error) {
+	out := new(StatusResponse)
 	err := c.cc.Invoke(ctx, "/proto.AppConfigService/Create", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -43,9 +45,27 @@ func (c *appConfigServiceClient) Create(ctx context.Context, in *NewAppConfigReq
 	return out, nil
 }
 
-func (c *appConfigServiceClient) Details(ctx context.Context, in *AppConfig, opts ...grpc.CallOption) (*StatusResponse, error) {
+func (c *appConfigServiceClient) Update(ctx context.Context, in *AppConfigDetails, opts ...grpc.CallOption) (*StatusResponse, error) {
 	out := new(StatusResponse)
+	err := c.cc.Invoke(ctx, "/proto.AppConfigService/Update", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *appConfigServiceClient) Details(ctx context.Context, in *Id, opts ...grpc.CallOption) (*AppConfigDetails, error) {
+	out := new(AppConfigDetails)
 	err := c.cc.Invoke(ctx, "/proto.AppConfigService/Details", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *appConfigServiceClient) Delete(ctx context.Context, in *Id, opts ...grpc.CallOption) (*StatusResponse, error) {
+	out := new(StatusResponse)
+	err := c.cc.Invoke(ctx, "/proto.AppConfigService/Delete", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -56,8 +76,10 @@ func (c *appConfigServiceClient) Details(ctx context.Context, in *AppConfig, opt
 // All implementations must embed UnimplementedAppConfigServiceServer
 // for forward compatibility
 type AppConfigServiceServer interface {
-	Create(context.Context, *NewAppConfigRequest) (*AppConfig, error)
-	Details(context.Context, *AppConfig) (*StatusResponse, error)
+	Create(context.Context, *NewAppConfigRequest) (*StatusResponse, error)
+	Update(context.Context, *AppConfigDetails) (*StatusResponse, error)
+	Details(context.Context, *Id) (*AppConfigDetails, error)
+	Delete(context.Context, *Id) (*StatusResponse, error)
 	mustEmbedUnimplementedAppConfigServiceServer()
 }
 
@@ -65,11 +87,17 @@ type AppConfigServiceServer interface {
 type UnimplementedAppConfigServiceServer struct {
 }
 
-func (UnimplementedAppConfigServiceServer) Create(context.Context, *NewAppConfigRequest) (*AppConfig, error) {
+func (UnimplementedAppConfigServiceServer) Create(context.Context, *NewAppConfigRequest) (*StatusResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Create not implemented")
 }
-func (UnimplementedAppConfigServiceServer) Details(context.Context, *AppConfig) (*StatusResponse, error) {
+func (UnimplementedAppConfigServiceServer) Update(context.Context, *AppConfigDetails) (*StatusResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Update not implemented")
+}
+func (UnimplementedAppConfigServiceServer) Details(context.Context, *Id) (*AppConfigDetails, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Details not implemented")
+}
+func (UnimplementedAppConfigServiceServer) Delete(context.Context, *Id) (*StatusResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Delete not implemented")
 }
 func (UnimplementedAppConfigServiceServer) mustEmbedUnimplementedAppConfigServiceServer() {}
 
@@ -102,8 +130,26 @@ func _AppConfigService_Create_Handler(srv interface{}, ctx context.Context, dec 
 	return interceptor(ctx, in, info, handler)
 }
 
+func _AppConfigService_Update_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AppConfigDetails)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AppConfigServiceServer).Update(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/proto.AppConfigService/Update",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AppConfigServiceServer).Update(ctx, req.(*AppConfigDetails))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _AppConfigService_Details_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(AppConfig)
+	in := new(Id)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -115,7 +161,25 @@ func _AppConfigService_Details_Handler(srv interface{}, ctx context.Context, dec
 		FullMethod: "/proto.AppConfigService/Details",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AppConfigServiceServer).Details(ctx, req.(*AppConfig))
+		return srv.(AppConfigServiceServer).Details(ctx, req.(*Id))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _AppConfigService_Delete_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(Id)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AppConfigServiceServer).Delete(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/proto.AppConfigService/Delete",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AppConfigServiceServer).Delete(ctx, req.(*Id))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -132,8 +196,16 @@ var AppConfigService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _AppConfigService_Create_Handler,
 		},
 		{
+			MethodName: "Update",
+			Handler:    _AppConfigService_Update_Handler,
+		},
+		{
 			MethodName: "Details",
 			Handler:    _AppConfigService_Details_Handler,
+		},
+		{
+			MethodName: "Delete",
+			Handler:    _AppConfigService_Delete_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
