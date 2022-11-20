@@ -7,8 +7,7 @@ import (
 )
 
 func main() {
-	common.PrintStartMethod("Init grpc server")
-	
+	common.PrintSuccess("[GRPC] Starting")
 	cmd.DefaultInit()
 	grpc.InitServer()
 }

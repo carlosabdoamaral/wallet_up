@@ -15,7 +15,6 @@ var (
 )
 
 func ConnectToGRPCServer() *grpc.ClientConn {
-	common.PrintInfo("[GRPC] Connecting...")
 	flag.Parse()
 
 	conn, err := grpc.Dial(*Addr, grpc.WithTransportCredentials(insecure.NewCredentials()))
@@ -28,6 +27,5 @@ func ConnectToGRPCServer() *grpc.ClientConn {
 	common.AppConfigServiceClient = pb.NewAppConfigServiceClient(conn)
 	common.WalletServiceClient = pb.NewWalletServiceClient(conn)
 
-	common.PrintSuccess("[GRPC] Success...")
 	return conn
 }

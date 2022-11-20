@@ -24,8 +24,7 @@ func Start() {
 	forever := make(chan bool)
 	go func() {
 		for m := range msgs {
-			fmt.Println("")
-			common.PrintSuccess("Received new message!")
+			common.PrintSuccess(fmt.Sprintf("New request -> %s", m.Type))
 
 			switch m.Type {
 			case "NEWACCOUNT":
@@ -34,10 +33,11 @@ func Start() {
 				EditAccountHandler(&m)
 			case "SOFTDELETEACCOUNT":
 				SoftDeleteAccountHandler(&m)
+			case "RESTOREACCOUNT":
+				RestoreAccountHandler(&m)
 			}
 		}
 	}()
 
-	common.PrintInfo("Waiting for messages")
 	<-forever
 }

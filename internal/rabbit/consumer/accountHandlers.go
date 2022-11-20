@@ -1,11 +1,8 @@
 package consumer
 
 import (
-	"encoding/json"
-
 	"github.com/carlosabdoamaral/wallet_up/common"
 	"github.com/carlosabdoamaral/wallet_up/internal/db"
-	"github.com/carlosabdoamaral/wallet_up/internal/models"
 	pb "github.com/carlosabdoamaral/wallet_up/protodefs/gen/proto"
 	"github.com/streadway/amqp"
 	"google.golang.org/protobuf/encoding/protojson"
@@ -15,7 +12,6 @@ func NewAccountHandler(m *amqp.Delivery) {
 	account := &pb.NewAccountRequest{}
 	err := protojson.Unmarshal(m.Body, account)
 	if err != nil {
-		common.PrintError(err.Error())
 		return
 	}
 
@@ -24,10 +20,8 @@ func NewAccountHandler(m *amqp.Delivery) {
 
 func EditAccountHandler(m *amqp.Delivery) {
 	account := &pb.EditAccountRequest{}
-
 	err := protojson.Unmarshal(m.Body, account)
 	if err != nil {
-		common.PrintError("Error while unmarshaling JSON")
 		return
 	}
 
@@ -35,14 +29,33 @@ func EditAccountHandler(m *amqp.Delivery) {
 }
 
 func SoftDeleteAccountHandler(m *amqp.Delivery) {
-	common.PrintInfo("[RABBIT] SoftDeleteAccountHandler")
-
-	accountID := &models.AccountId{}
-	err := json.Unmarshal(m.Body, &accountID)
+	id := &pb.Id{}
+	err := protojson.Unmarshal(m.Body, id)
 	if err != nil {
-		common.PrintError("Error while unmarshaling JSON")
+		common.PrintError(err.Error())
 		return
 	}
 
-	db.SoftDeleteAccount(accountID)
+	err = db.SoftDeleteAccount(id)
+	if err != nil {
+		common.PrintError(err.Error())
+		return
+	}
+}
+
+func RestoreAccountHandler(m *amqp.Delivery) {
+	id := &pb.Id{}
+	err := protojson.Unmarshal(m.Body, id)
+	if err != nil {
+		common.PrintError(err.Error())
+		return
+	}
+
+	err = db.RestoreAccount(id)
+	if err != nil {
+		common.PrintError(err.Error())
+		return
+	}
+
+	common.PrintSuccess("Account restored successfully")
 }

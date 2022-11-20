@@ -24,7 +24,6 @@ type WalletServer struct {
 func InitServer() {
 	lis, err := net.Listen("tcp", ":50051")
 	if err != nil {
-		common.PrintError(err.Error())
 		return
 	}
 

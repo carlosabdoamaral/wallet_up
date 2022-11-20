@@ -17,31 +17,31 @@ const (
 )
 
 func PrintStartMethod(s string) {
-	fmt.Println("")
+	log.Println("")
 	PrintInfo(fmt.Sprintf("Received %s request", s))
 }
 
 func PrintInfo(s string) {
-	s = fmt.Sprintf("%s[*] %s%s", string(colorBlue), s, string(colorReset))
-	fmt.Println(s)
+	s = fmt.Sprintf("%s%s%s", string(colorBlue), s, string(colorReset))
+	log.Println(s)
 }
 
 func PrintSuccess(s string) {
-	s = fmt.Sprintf("%s[*] %s%s", string(colorGreen), s, string(colorReset))
-	fmt.Println(s)
+	s = fmt.Sprintf("%s%s%s", string(colorGreen), s, string(colorReset))
+	log.Println(s)
 }
 
 func PrintWarning(s string) {
-	s = fmt.Sprintf("%s[*] %s%s", string(colorYellow), s, string(colorReset))
-	fmt.Println(s)
+	s = fmt.Sprintf("%s%s%s", string(colorYellow), s, string(colorReset))
+	log.Println(s)
 }
 
 func PrintError(s string) {
-	s = fmt.Sprintf("%s[!] %s%s", string(colorRed), s, string(colorReset))
-	fmt.Println(s)
+	s = fmt.Sprintf("%s%s%s", string(colorRed), s, string(colorReset))
+	log.Println(s)
 }
 
 func PrintFatal(s string) {
-	fmt.Printf("%s[!] %s%s\n", string(colorRed), s, string(colorReset))
+	fmt.Printf("%s%s%s\n", string(colorRed), s, string(colorReset))
 	log.Fatalln()
 }

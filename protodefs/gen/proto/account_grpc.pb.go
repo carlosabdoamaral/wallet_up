@@ -26,7 +26,8 @@ type AccountServiceClient interface {
 	Details(ctx context.Context, in *Id, opts ...grpc.CallOption) (*AccountDetailsResponse, error)
 	Edit(ctx context.Context, in *EditAccountRequest, opts ...grpc.CallOption) (*StatusResponse, error)
 	Delete(ctx context.Context, in *Id, opts ...grpc.CallOption) (*StatusResponse, error)
-	Restore(ctx context.Context, in *Id, opts ...grpc.CallOption) (*AccountDetailsResponse, error)
+	SoftDelete(ctx context.Context, in *Id, opts ...grpc.CallOption) (*StatusResponse, error)
+	Restore(ctx context.Context, in *Id, opts ...grpc.CallOption) (*StatusResponse, error)
 }
 
 type accountServiceClient struct {
@@ -73,8 +74,17 @@ func (c *accountServiceClient) Delete(ctx context.Context, in *Id, opts ...grpc.
 	return out, nil
 }
 
-func (c *accountServiceClient) Restore(ctx context.Context, in *Id, opts ...grpc.CallOption) (*AccountDetailsResponse, error) {
-	out := new(AccountDetailsResponse)
+func (c *accountServiceClient) SoftDelete(ctx context.Context, in *Id, opts ...grpc.CallOption) (*StatusResponse, error) {
+	out := new(StatusResponse)
+	err := c.cc.Invoke(ctx, "/proto.AccountService/SoftDelete", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *accountServiceClient) Restore(ctx context.Context, in *Id, opts ...grpc.CallOption) (*StatusResponse, error) {
+	out := new(StatusResponse)
 	err := c.cc.Invoke(ctx, "/proto.AccountService/Restore", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -90,7 +100,8 @@ type AccountServiceServer interface {
 	Details(context.Context, *Id) (*AccountDetailsResponse, error)
 	Edit(context.Context, *EditAccountRequest) (*StatusResponse, error)
 	Delete(context.Context, *Id) (*StatusResponse, error)
-	Restore(context.Context, *Id) (*AccountDetailsResponse, error)
+	SoftDelete(context.Context, *Id) (*StatusResponse, error)
+	Restore(context.Context, *Id) (*StatusResponse, error)
 	mustEmbedUnimplementedAccountServiceServer()
 }
 
@@ -110,7 +121,10 @@ func (UnimplementedAccountServiceServer) Edit(context.Context, *EditAccountReque
 func (UnimplementedAccountServiceServer) Delete(context.Context, *Id) (*StatusResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Delete not implemented")
 }
-func (UnimplementedAccountServiceServer) Restore(context.Context, *Id) (*AccountDetailsResponse, error) {
+func (UnimplementedAccountServiceServer) SoftDelete(context.Context, *Id) (*StatusResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SoftDelete not implemented")
+}
+func (UnimplementedAccountServiceServer) Restore(context.Context, *Id) (*StatusResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Restore not implemented")
 }
 func (UnimplementedAccountServiceServer) mustEmbedUnimplementedAccountServiceServer() {}
@@ -198,6 +212,24 @@ func _AccountService_Delete_Handler(srv interface{}, ctx context.Context, dec fu
 	return interceptor(ctx, in, info, handler)
 }
 
+func _AccountService_SoftDelete_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(Id)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AccountServiceServer).SoftDelete(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/proto.AccountService/SoftDelete",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AccountServiceServer).SoftDelete(ctx, req.(*Id))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _AccountService_Restore_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(Id)
 	if err := dec(in); err != nil {
@@ -238,6 +270,10 @@ var AccountService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "Delete",
 			Handler:    _AccountService_Delete_Handler,
+		},
+		{
+			MethodName: "SoftDelete",
+			Handler:    _AccountService_SoftDelete_Handler,
 		},
 		{
 			MethodName: "Restore",

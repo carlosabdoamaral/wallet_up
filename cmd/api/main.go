@@ -8,10 +8,8 @@ import (
 )
 
 func main() {
+	common.PrintSuccess("[API] Starting")
 	cmd.DefaultInit()
-
 	handlers.ConnectToGRPCServer()
-
-	common.PrintInfo("Starting API")
 	api.Init()
 }

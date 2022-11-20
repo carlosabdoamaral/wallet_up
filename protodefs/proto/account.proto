@@ -10,7 +10,8 @@ service AccountService {
     rpc Details(Id) returns (AccountDetailsResponse) {};
     rpc Edit(EditAccountRequest) returns (StatusResponse) {};
     rpc Delete(Id) returns (StatusResponse) {};
-    rpc Restore(Id) returns (AccountDetailsResponse) {};
+    rpc SoftDelete(Id) returns (StatusResponse) {};
+    rpc Restore(Id) returns (StatusResponse) {};
 }
 
 // NEW ACCOUNT

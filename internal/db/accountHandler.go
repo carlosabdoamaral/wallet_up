@@ -53,6 +53,7 @@ var (
 	`
 
 	SoftDeleteAccountQuery = `UPDATE user_tb SET deleted = true WHERE id = $1;`
+	RestoreAccountQuery    = `UPDATE user_tb SET deleted = false WHERE id = $1;`
 )
 
 func NewAccount(m *pb.NewAccountRequest) {
@@ -61,12 +62,9 @@ func NewAccount(m *pb.NewAccountRequest) {
 	_, err := db.Exec(NewAccountQuery, m.IdNationality, m.Firstname, m.Lastname, m.Email, m.Password, m.PhonePrefix, m.Ddd, m.Phone)
 	utils.CheckErr(err, false, "Error inserting data")
 
-	common.PrintSuccess("Account created!")
 }
 
 func AccountDetails(m *pb.Id) (*pb.AccountDetailsResponse, error) {
-	common.PrintInfo("[DB] AccountDetails")
-
 	db := common.Database
 	account := &models.AccountDetailsResponse{}
 
@@ -141,7 +139,6 @@ func EditAccount(m *pb.EditAccountRequest) {
 		m.GetId(),
 	)
 	if err != nil {
-		common.PrintError(err.Error())
 		return
 	}
 
@@ -156,17 +153,28 @@ func EditAccount(m *pb.EditAccountRequest) {
 		m.GetId(),
 	)
 	if err != nil {
-		common.PrintError(err.Error())
 		return
 	}
 }
 
-func SoftDeleteAccount(m *models.AccountId) {
-	common.PrintInfo("[DB] SoftDeleteAccount")
+func SoftDeleteAccount(m *pb.Id) error {
 	db := common.Database
-
-	_, err := db.Exec(SoftDeleteAccountQuery, m.AccountId)
+	_, err := db.Exec(SoftDeleteAccountQuery, m.GetId())
 	if err != nil {
 		common.PrintError(err.Error())
+		return err
 	}
+
+	return nil
+}
+
+func RestoreAccount(m *pb.Id) error {
+	db := common.Database
+	_, err := db.Exec(RestoreAccountQuery, m.GetId())
+	if err != nil {
+		common.PrintError(err.Error())
+		return err
+	}
+
+	return nil
 }
