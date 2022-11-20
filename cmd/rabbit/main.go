@@ -2,7 +2,7 @@ package main
 
 import (
 	"github.com/carlosabdoamaral/wallet_up/cmd"
-	"github.com/carlosabdoamaral/wallet_up/internal/rabbit/consumer"
+	"github.com/carlosabdoamaral/wallet_up/internal/services/rabbit/consumer"
 )
 
 func main() {

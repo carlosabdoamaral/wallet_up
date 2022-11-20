@@ -3,7 +3,7 @@ package cmd
 import (
 	"github.com/carlosabdoamaral/wallet_up/common"
 	"github.com/carlosabdoamaral/wallet_up/internal/db"
-	"github.com/carlosabdoamaral/wallet_up/internal/rabbit"
+	"github.com/carlosabdoamaral/wallet_up/internal/services/rabbit"
 	"github.com/carlosabdoamaral/wallet_up/internal/utils"
 )
 

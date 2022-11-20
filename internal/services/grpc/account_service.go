@@ -7,7 +7,7 @@ import (
 
 	"github.com/carlosabdoamaral/wallet_up/common"
 	"github.com/carlosabdoamaral/wallet_up/internal/db"
-	"github.com/carlosabdoamaral/wallet_up/internal/rabbit/producer"
+	"github.com/carlosabdoamaral/wallet_up/internal/services/rabbit/producer"
 	pb "github.com/carlosabdoamaral/wallet_up/protodefs/gen/proto"
 	"google.golang.org/protobuf/encoding/protojson"
 )
