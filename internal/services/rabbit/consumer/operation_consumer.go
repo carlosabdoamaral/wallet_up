@@ -8,35 +8,35 @@ import (
 	"google.golang.org/protobuf/encoding/protojson"
 )
 
-func CreateWallet(m *amqp.Delivery) {
-	model := &pb.CreateWalletRequest{}
+func Deposit(m *amqp.Delivery) {
+	model := &pb.TransactionRequest{}
 
 	err := protojson.Unmarshal(m.Body, model)
 	if err != nil {
 		common.PrintFatal(err.Error())
 	}
 
-	err = db.CreateWallet(model)
+	err = db.Deposit(model)
 	if err != nil {
 		common.PrintFatal(err.Error())
 	}
 }
 
-func EditWallet(m *amqp.Delivery) {
-	model := &pb.EditWalletRequest{}
+func Withdraw(m *amqp.Delivery) {
+	model := &pb.TransactionRequest{}
 
 	err := protojson.Unmarshal(m.Body, model)
 	if err != nil {
 		common.PrintFatal(err.Error())
 	}
 
-	err = db.EditWallet(model)
+	err = db.Withdraw(model)
 	if err != nil {
 		common.PrintFatal(err.Error())
 	}
 }
 
-func DeleteWallet(m *amqp.Delivery) {
+func DeleteTransaction(m *amqp.Delivery) {
 	model := &pb.Id{}
 
 	err := protojson.Unmarshal(m.Body, model)
@@ -44,35 +44,21 @@ func DeleteWallet(m *amqp.Delivery) {
 		common.PrintFatal(err.Error())
 	}
 
-	err = db.DeleteWallet(model)
+	err = db.DeleteTransaction(model)
 	if err != nil {
 		common.PrintFatal(err.Error())
 	}
 }
 
-func ShareWallet(m *amqp.Delivery) {
-	model := &pb.ShareWalletRequest{}
+func EditTransaction(m *amqp.Delivery) {
+	model := &pb.EditTransactionRequest{}
 
 	err := protojson.Unmarshal(m.Body, model)
 	if err != nil {
 		common.PrintFatal(err.Error())
 	}
 
-	err = db.ShareWallet(model)
-	if err != nil {
-		common.PrintFatal(err.Error())
-	}
-}
-
-func UnShareWallet(m *amqp.Delivery) {
-	model := &pb.UnShareWalletRequest{}
-
-	err := protojson.Unmarshal(m.Body, model)
-	if err != nil {
-		common.PrintFatal(err.Error())
-	}
-
-	err = db.UnShareWallet(model)
+	err = db.EditTransaction(model)
 	if err != nil {
 		common.PrintFatal(err.Error())
 	}

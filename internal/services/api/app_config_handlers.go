@@ -11,7 +11,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func CreateAppConfig(c *gin.Context) {
+func CreateConfig(c *gin.Context) {
 	body, err := ioutil.ReadAll(c.Request.Body)
 	if err != nil {
 		c.IndentedJSON(http.StatusInternalServerError, err)
@@ -34,7 +34,7 @@ func CreateAppConfig(c *gin.Context) {
 	c.IndentedJSON(http.StatusOK, res)
 }
 
-func UpdateAppConfig(c *gin.Context) {
+func UpdateConfig(c *gin.Context) {
 	body, err := ioutil.ReadAll(c.Request.Body)
 	if err != nil {
 		common.PrintError(err.Error())
@@ -60,7 +60,7 @@ func UpdateAppConfig(c *gin.Context) {
 	c.IndentedJSON(http.StatusOK, res)
 }
 
-func AppConfigDetails(c *gin.Context) {
+func ConfigDetails(c *gin.Context) {
 	body, err := ioutil.ReadAll(c.Request.Body)
 	if err != nil {
 		c.IndentedJSON(http.StatusInternalServerError, err)
@@ -92,7 +92,7 @@ func AppConfigDetails(c *gin.Context) {
 	})
 }
 
-func DeleteAppConfig(c *gin.Context) {
+func DeleteConfig(c *gin.Context) {
 	body, err := ioutil.ReadAll(c.Request.Body)
 	if err != nil {
 		c.IndentedJSON(http.StatusInternalServerError, err)

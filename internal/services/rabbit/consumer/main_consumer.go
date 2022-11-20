@@ -49,6 +49,42 @@ func Start() {
 			case "DELETEAPPCONFIG":
 				DeleteAppConfig(&m)
 			}
+
+			//TODO: WALLET
+			switch m.Type {
+			case "CREATEWALLET":
+				CreateWallet(&m)
+			case "EDITWALLET":
+				EditWallet(&m)
+			case "DELETEWALLET":
+				DeleteWallet(&m)
+			case "SHAREWALLET":
+				ShareWallet(&m)
+			case "UNSHAREWALLET":
+				UnShareWallet(&m)
+			}
+
+			//TODO: OPERATION
+			switch m.Type {
+			case "DEPOSITWALLET":
+				Deposit(&m)
+			case "WITHDRAWWALLET":
+				Withdraw(&m)
+			case "DELETETRANSACTION":
+				DeleteTransaction(&m)
+			case "EDITTRANSACTION":
+				EditTransaction(&m)
+			}
+
+			// TODO: CATEGORY
+			switch m.Type {
+			case "CREATECATEGORY":
+				CreateCategory(&m)
+			case "EDITCATEGORY":
+				EditCategory(&m)
+			case "DELETECATEGORY":
+				DeleteCategory(&m)
+			}
 		}
 	}()
 

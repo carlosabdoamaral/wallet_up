@@ -1,0 +1,32 @@
+syntax = "proto3";
+package proto;
+option go_package = "./proto";
+
+import "generic.proto";
+
+service OperationService {
+    rpc Deposit(TransactionRequest) returns(StatusResponse) {};
+    rpc Withdraw(TransactionRequest) returns(StatusResponse) {};
+    
+    rpc DeleteTransaction(Id) returns(StatusResponse) {};
+    rpc EditTransaction(EditTransactionRequest) returns(StatusResponse) {};
+}
+
+message TransactionRequest {
+    int64 id_user = 1;
+    int64 id_wallet = 2;
+    int64 id_currency = 3;
+    int64 id_type = 4;
+    float value = 5;
+    string description = 6;
+}
+
+message EditTransactionRequest {
+    int64 id_transaction = 1;
+    int64 id_user = 2;
+    int64 id_wallet = 3;
+    int64 id_currency = 4;
+    int64 id_type = 5;
+    float value = 6;
+    string description = 7;
+}

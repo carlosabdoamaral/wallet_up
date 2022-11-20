@@ -22,14 +22,12 @@ const _ = grpc.SupportPackageIsVersion7
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type WalletServiceClient interface {
-	Create(ctx context.Context, in *CreateWalletRequest, opts ...grpc.CallOption) (*WalletDetails, error)
-	Details(ctx context.Context, in *Id, opts ...grpc.CallOption) (*WalletDetails, error)
-	Edit(ctx context.Context, in *EditWalletRequest, opts ...grpc.CallOption) (*WalletDetails, error)
+	Create(ctx context.Context, in *CreateWalletRequest, opts ...grpc.CallOption) (*StatusResponse, error)
+	Details(ctx context.Context, in *Id, opts ...grpc.CallOption) (*WalletDetailsResponse, error)
+	Edit(ctx context.Context, in *EditWalletRequest, opts ...grpc.CallOption) (*StatusResponse, error)
 	Delete(ctx context.Context, in *Id, opts ...grpc.CallOption) (*StatusResponse, error)
-	Share(ctx context.Context, in *ShareWallet, opts ...grpc.CallOption) (*StatusResponse, error)
-	Unshare(ctx context.Context, in *UnshareWallet, opts ...grpc.CallOption) (*StatusResponse, error)
-	Deposit(ctx context.Context, in *WalletTransactionDetails, opts ...grpc.CallOption) (*StatusResponse, error)
-	Withdraw(ctx context.Context, in *WalletTransactionDetails, opts ...grpc.CallOption) (*StatusResponse, error)
+	Share(ctx context.Context, in *ShareWalletRequest, opts ...grpc.CallOption) (*StatusResponse, error)
+	UnShare(ctx context.Context, in *UnShareWalletRequest, opts ...grpc.CallOption) (*StatusResponse, error)
 }
 
 type walletServiceClient struct {
@@ -40,8 +38,8 @@ func NewWalletServiceClient(cc grpc.ClientConnInterface) WalletServiceClient {
 	return &walletServiceClient{cc}
 }
 
-func (c *walletServiceClient) Create(ctx context.Context, in *CreateWalletRequest, opts ...grpc.CallOption) (*WalletDetails, error) {
-	out := new(WalletDetails)
+func (c *walletServiceClient) Create(ctx context.Context, in *CreateWalletRequest, opts ...grpc.CallOption) (*StatusResponse, error) {
+	out := new(StatusResponse)
 	err := c.cc.Invoke(ctx, "/proto.WalletService/Create", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -49,8 +47,8 @@ func (c *walletServiceClient) Create(ctx context.Context, in *CreateWalletReques
 	return out, nil
 }
 
-func (c *walletServiceClient) Details(ctx context.Context, in *Id, opts ...grpc.CallOption) (*WalletDetails, error) {
-	out := new(WalletDetails)
+func (c *walletServiceClient) Details(ctx context.Context, in *Id, opts ...grpc.CallOption) (*WalletDetailsResponse, error) {
+	out := new(WalletDetailsResponse)
 	err := c.cc.Invoke(ctx, "/proto.WalletService/Details", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -58,8 +56,8 @@ func (c *walletServiceClient) Details(ctx context.Context, in *Id, opts ...grpc.
 	return out, nil
 }
 
-func (c *walletServiceClient) Edit(ctx context.Context, in *EditWalletRequest, opts ...grpc.CallOption) (*WalletDetails, error) {
-	out := new(WalletDetails)
+func (c *walletServiceClient) Edit(ctx context.Context, in *EditWalletRequest, opts ...grpc.CallOption) (*StatusResponse, error) {
+	out := new(StatusResponse)
 	err := c.cc.Invoke(ctx, "/proto.WalletService/Edit", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -76,7 +74,7 @@ func (c *walletServiceClient) Delete(ctx context.Context, in *Id, opts ...grpc.C
 	return out, nil
 }
 
-func (c *walletServiceClient) Share(ctx context.Context, in *ShareWallet, opts ...grpc.CallOption) (*StatusResponse, error) {
+func (c *walletServiceClient) Share(ctx context.Context, in *ShareWalletRequest, opts ...grpc.CallOption) (*StatusResponse, error) {
 	out := new(StatusResponse)
 	err := c.cc.Invoke(ctx, "/proto.WalletService/Share", in, out, opts...)
 	if err != nil {
@@ -85,27 +83,9 @@ func (c *walletServiceClient) Share(ctx context.Context, in *ShareWallet, opts .
 	return out, nil
 }
 
-func (c *walletServiceClient) Unshare(ctx context.Context, in *UnshareWallet, opts ...grpc.CallOption) (*StatusResponse, error) {
+func (c *walletServiceClient) UnShare(ctx context.Context, in *UnShareWalletRequest, opts ...grpc.CallOption) (*StatusResponse, error) {
 	out := new(StatusResponse)
-	err := c.cc.Invoke(ctx, "/proto.WalletService/Unshare", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *walletServiceClient) Deposit(ctx context.Context, in *WalletTransactionDetails, opts ...grpc.CallOption) (*StatusResponse, error) {
-	out := new(StatusResponse)
-	err := c.cc.Invoke(ctx, "/proto.WalletService/Deposit", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *walletServiceClient) Withdraw(ctx context.Context, in *WalletTransactionDetails, opts ...grpc.CallOption) (*StatusResponse, error) {
-	out := new(StatusResponse)
-	err := c.cc.Invoke(ctx, "/proto.WalletService/Withdraw", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/proto.WalletService/UnShare", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -116,14 +96,12 @@ func (c *walletServiceClient) Withdraw(ctx context.Context, in *WalletTransactio
 // All implementations must embed UnimplementedWalletServiceServer
 // for forward compatibility
 type WalletServiceServer interface {
-	Create(context.Context, *CreateWalletRequest) (*WalletDetails, error)
-	Details(context.Context, *Id) (*WalletDetails, error)
-	Edit(context.Context, *EditWalletRequest) (*WalletDetails, error)
+	Create(context.Context, *CreateWalletRequest) (*StatusResponse, error)
+	Details(context.Context, *Id) (*WalletDetailsResponse, error)
+	Edit(context.Context, *EditWalletRequest) (*StatusResponse, error)
 	Delete(context.Context, *Id) (*StatusResponse, error)
-	Share(context.Context, *ShareWallet) (*StatusResponse, error)
-	Unshare(context.Context, *UnshareWallet) (*StatusResponse, error)
-	Deposit(context.Context, *WalletTransactionDetails) (*StatusResponse, error)
-	Withdraw(context.Context, *WalletTransactionDetails) (*StatusResponse, error)
+	Share(context.Context, *ShareWalletRequest) (*StatusResponse, error)
+	UnShare(context.Context, *UnShareWalletRequest) (*StatusResponse, error)
 	mustEmbedUnimplementedWalletServiceServer()
 }
 
@@ -131,29 +109,23 @@ type WalletServiceServer interface {
 type UnimplementedWalletServiceServer struct {
 }
 
-func (UnimplementedWalletServiceServer) Create(context.Context, *CreateWalletRequest) (*WalletDetails, error) {
+func (UnimplementedWalletServiceServer) Create(context.Context, *CreateWalletRequest) (*StatusResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Create not implemented")
 }
-func (UnimplementedWalletServiceServer) Details(context.Context, *Id) (*WalletDetails, error) {
+func (UnimplementedWalletServiceServer) Details(context.Context, *Id) (*WalletDetailsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Details not implemented")
 }
-func (UnimplementedWalletServiceServer) Edit(context.Context, *EditWalletRequest) (*WalletDetails, error) {
+func (UnimplementedWalletServiceServer) Edit(context.Context, *EditWalletRequest) (*StatusResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Edit not implemented")
 }
 func (UnimplementedWalletServiceServer) Delete(context.Context, *Id) (*StatusResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Delete not implemented")
 }
-func (UnimplementedWalletServiceServer) Share(context.Context, *ShareWallet) (*StatusResponse, error) {
+func (UnimplementedWalletServiceServer) Share(context.Context, *ShareWalletRequest) (*StatusResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Share not implemented")
 }
-func (UnimplementedWalletServiceServer) Unshare(context.Context, *UnshareWallet) (*StatusResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method Unshare not implemented")
-}
-func (UnimplementedWalletServiceServer) Deposit(context.Context, *WalletTransactionDetails) (*StatusResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method Deposit not implemented")
-}
-func (UnimplementedWalletServiceServer) Withdraw(context.Context, *WalletTransactionDetails) (*StatusResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method Withdraw not implemented")
+func (UnimplementedWalletServiceServer) UnShare(context.Context, *UnShareWalletRequest) (*StatusResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UnShare not implemented")
 }
 func (UnimplementedWalletServiceServer) mustEmbedUnimplementedWalletServiceServer() {}
 
@@ -241,7 +213,7 @@ func _WalletService_Delete_Handler(srv interface{}, ctx context.Context, dec fun
 }
 
 func _WalletService_Share_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ShareWallet)
+	in := new(ShareWalletRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -253,61 +225,25 @@ func _WalletService_Share_Handler(srv interface{}, ctx context.Context, dec func
 		FullMethod: "/proto.WalletService/Share",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(WalletServiceServer).Share(ctx, req.(*ShareWallet))
+		return srv.(WalletServiceServer).Share(ctx, req.(*ShareWalletRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _WalletService_Unshare_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(UnshareWallet)
+func _WalletService_UnShare_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UnShareWalletRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(WalletServiceServer).Unshare(ctx, in)
+		return srv.(WalletServiceServer).UnShare(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/proto.WalletService/Unshare",
+		FullMethod: "/proto.WalletService/UnShare",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(WalletServiceServer).Unshare(ctx, req.(*UnshareWallet))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _WalletService_Deposit_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(WalletTransactionDetails)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(WalletServiceServer).Deposit(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/proto.WalletService/Deposit",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(WalletServiceServer).Deposit(ctx, req.(*WalletTransactionDetails))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _WalletService_Withdraw_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(WalletTransactionDetails)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(WalletServiceServer).Withdraw(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/proto.WalletService/Withdraw",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(WalletServiceServer).Withdraw(ctx, req.(*WalletTransactionDetails))
+		return srv.(WalletServiceServer).UnShare(ctx, req.(*UnShareWalletRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -340,16 +276,8 @@ var WalletService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _WalletService_Share_Handler,
 		},
 		{
-			MethodName: "Unshare",
-			Handler:    _WalletService_Unshare_Handler,
-		},
-		{
-			MethodName: "Deposit",
-			Handler:    _WalletService_Deposit_Handler,
-		},
-		{
-			MethodName: "Withdraw",
-			Handler:    _WalletService_Withdraw_Handler,
+			MethodName: "UnShare",
+			Handler:    _WalletService_UnShare_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

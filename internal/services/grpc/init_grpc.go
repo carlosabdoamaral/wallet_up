@@ -21,6 +21,14 @@ type WalletServer struct {
 	pb.UnimplementedWalletServiceServer
 }
 
+type CategoryServer struct {
+	pb.UnimplementedCategoryServiceServer
+}
+
+type OperationServer struct {
+	pb.UnimplementedOperationServiceServer
+}
+
 func InitServer() {
 	lis, err := net.Listen("tcp", ":50051")
 	if err != nil {
@@ -31,6 +39,8 @@ func InitServer() {
 	pb.RegisterAccountServiceServer(common.GrpcServer, &AccountServer{})
 	pb.RegisterAppConfigServiceServer(common.GrpcServer, &AppConfigServer{})
 	pb.RegisterWalletServiceServer(common.GrpcServer, &WalletServer{})
+	pb.RegisterCategoryServiceServer(common.GrpcServer, &CategoryServer{})
+	pb.RegisterOperationServiceServer(common.GrpcServer, &OperationServer{})
 
 	log.Printf("Server listening on %v", lis.Addr())
 	if err := common.GrpcServer.Serve(lis); err != nil {

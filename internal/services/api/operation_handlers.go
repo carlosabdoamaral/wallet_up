@@ -10,30 +10,51 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func CreateWallet(c *gin.Context) {
+func Deposit(c *gin.Context) {
 	body, err := ioutil.ReadAll(c.Request.Body)
 	if err != nil {
 		c.IndentedJSON(http.StatusInternalServerError, err.Error())
 		return
 	}
 
-	model := &pb.CreateWalletRequest{}
+	model := &pb.TransactionRequest{}
 	err = json.Unmarshal(body, &model)
 	if err != nil {
 		c.IndentedJSON(http.StatusInternalServerError, err.Error())
 		return
 	}
 
-	res, err := common.WalletServiceClient.Create(c.Request.Context(), model)
+	res, err := common.OperationServiceClient.Deposit(c.Request.Context(), model)
+	if err != nil {
+		c.IndentedJSON(http.StatusInternalServerError, err.Error())
+		return
+	}
+	c.IndentedJSON(http.StatusOK, res)
+}
+
+func Withdraw(c *gin.Context) {
+	body, err := ioutil.ReadAll(c.Request.Body)
 	if err != nil {
 		c.IndentedJSON(http.StatusInternalServerError, err.Error())
 		return
 	}
 
+	model := &pb.TransactionRequest{}
+	err = json.Unmarshal(body, &model)
+	if err != nil {
+		c.IndentedJSON(http.StatusInternalServerError, err.Error())
+		return
+	}
+
+	res, err := common.OperationServiceClient.Withdraw(c.Request.Context(), model)
+	if err != nil {
+		c.IndentedJSON(http.StatusInternalServerError, err.Error())
+		return
+	}
 	c.IndentedJSON(http.StatusOK, res)
 }
 
-func WalletDetails(c *gin.Context) {
+func DeleteTransaction(c *gin.Context) {
 	body, err := ioutil.ReadAll(c.Request.Body)
 	if err != nil {
 		c.IndentedJSON(http.StatusInternalServerError, err.Error())
@@ -47,53 +68,29 @@ func WalletDetails(c *gin.Context) {
 		return
 	}
 
-	res, err := common.WalletServiceClient.Details(c.Request.Context(), model)
+	res, err := common.OperationServiceClient.DeleteTransaction(c.Request.Context(), model)
 	if err != nil {
 		c.IndentedJSON(http.StatusInternalServerError, err.Error())
 		return
 	}
-
 	c.IndentedJSON(http.StatusOK, res)
 }
 
-func EditWallet(c *gin.Context) {
+func EditTransaction(c *gin.Context) {
 	body, err := ioutil.ReadAll(c.Request.Body)
 	if err != nil {
 		c.IndentedJSON(http.StatusInternalServerError, err.Error())
 		return
 	}
 
-	model := &pb.EditWalletRequest{}
+	model := &pb.EditTransactionRequest{}
 	err = json.Unmarshal(body, &model)
 	if err != nil {
 		c.IndentedJSON(http.StatusInternalServerError, err.Error())
 		return
 	}
 
-	res, err := common.WalletServiceClient.Edit(c.Request.Context(), model)
-	if err != nil {
-		c.IndentedJSON(http.StatusInternalServerError, err.Error())
-		return
-	}
-
-	c.IndentedJSON(http.StatusOK, res)
-}
-
-func DeleteWallet(c *gin.Context) {
-	body, err := ioutil.ReadAll(c.Request.Body)
-	if err != nil {
-		c.IndentedJSON(http.StatusInternalServerError, err.Error())
-		return
-	}
-
-	model := &pb.Id{}
-	err = json.Unmarshal(body, &model)
-	if err != nil {
-		c.IndentedJSON(http.StatusInternalServerError, err.Error())
-		return
-	}
-
-	res, err := common.WalletServiceClient.Delete(c.Request.Context(), model)
+	res, err := common.OperationServiceClient.EditTransaction(c.Request.Context(), model)
 	if err != nil {
 		c.IndentedJSON(http.StatusInternalServerError, err.Error())
 		return

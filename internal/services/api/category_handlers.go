@@ -10,21 +10,21 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func CreateWallet(c *gin.Context) {
+func CreateCategory(c *gin.Context) {
 	body, err := ioutil.ReadAll(c.Request.Body)
 	if err != nil {
 		c.IndentedJSON(http.StatusInternalServerError, err.Error())
 		return
 	}
 
-	model := &pb.CreateWalletRequest{}
+	model := &pb.CreateCategoryRequest{}
 	err = json.Unmarshal(body, &model)
 	if err != nil {
 		c.IndentedJSON(http.StatusInternalServerError, err.Error())
 		return
 	}
 
-	res, err := common.WalletServiceClient.Create(c.Request.Context(), model)
+	res, err := common.CategoryServiceClient.Create(c.Request.Context(), model)
 	if err != nil {
 		c.IndentedJSON(http.StatusInternalServerError, err.Error())
 		return
@@ -33,7 +33,30 @@ func CreateWallet(c *gin.Context) {
 	c.IndentedJSON(http.StatusOK, res)
 }
 
-func WalletDetails(c *gin.Context) {
+func EditCategory(c *gin.Context) {
+	body, err := ioutil.ReadAll(c.Request.Body)
+	if err != nil {
+		c.IndentedJSON(http.StatusInternalServerError, err.Error())
+		return
+	}
+
+	model := &pb.EditCategoryRequest{}
+	err = json.Unmarshal(body, &model)
+	if err != nil {
+		c.IndentedJSON(http.StatusInternalServerError, err.Error())
+		return
+	}
+
+	res, err := common.CategoryServiceClient.Edit(c.Request.Context(), model)
+	if err != nil {
+		c.IndentedJSON(http.StatusInternalServerError, err.Error())
+		return
+	}
+
+	c.IndentedJSON(http.StatusOK, res)
+}
+
+func CategoryList(c *gin.Context) {
 	body, err := ioutil.ReadAll(c.Request.Body)
 	if err != nil {
 		c.IndentedJSON(http.StatusInternalServerError, err.Error())
@@ -47,7 +70,7 @@ func WalletDetails(c *gin.Context) {
 		return
 	}
 
-	res, err := common.WalletServiceClient.Details(c.Request.Context(), model)
+	res, err := common.CategoryServiceClient.List(c.Request.Context(), model)
 	if err != nil {
 		c.IndentedJSON(http.StatusInternalServerError, err.Error())
 		return
@@ -56,30 +79,7 @@ func WalletDetails(c *gin.Context) {
 	c.IndentedJSON(http.StatusOK, res)
 }
 
-func EditWallet(c *gin.Context) {
-	body, err := ioutil.ReadAll(c.Request.Body)
-	if err != nil {
-		c.IndentedJSON(http.StatusInternalServerError, err.Error())
-		return
-	}
-
-	model := &pb.EditWalletRequest{}
-	err = json.Unmarshal(body, &model)
-	if err != nil {
-		c.IndentedJSON(http.StatusInternalServerError, err.Error())
-		return
-	}
-
-	res, err := common.WalletServiceClient.Edit(c.Request.Context(), model)
-	if err != nil {
-		c.IndentedJSON(http.StatusInternalServerError, err.Error())
-		return
-	}
-
-	c.IndentedJSON(http.StatusOK, res)
-}
-
-func DeleteWallet(c *gin.Context) {
+func DeleteCategory(c *gin.Context) {
 	body, err := ioutil.ReadAll(c.Request.Body)
 	if err != nil {
 		c.IndentedJSON(http.StatusInternalServerError, err.Error())
@@ -93,7 +93,7 @@ func DeleteWallet(c *gin.Context) {
 		return
 	}
 
-	res, err := common.WalletServiceClient.Delete(c.Request.Context(), model)
+	res, err := common.CategoryServiceClient.Delete(c.Request.Context(), model)
 	if err != nil {
 		c.IndentedJSON(http.StatusInternalServerError, err.Error())
 		return

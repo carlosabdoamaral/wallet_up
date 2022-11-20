@@ -20,32 +20,41 @@ func Init() {
 func MakeRoutes() {
 	// ACCOUNT
 	account := common.Router.Group("/account")
-	account.POST("/new", NewAccountHandler)
-	account.POST("/details", AccountDetailsHandler)
-	account.PUT("/edit", EditAccountHandler)
-	account.DELETE("/soft-delete", SoftDeleteAccountHandler)
-	account.POST("/restore", RestoreAccountHandler)
+	account.POST("/create", NewAccount)
+	account.POST("/details", AccountDetails)
+	account.PUT("/edit", EditAccount)
+	account.DELETE("/soft-delete", SoftDeleteAccount)
+	account.POST("/restore", RestoreAccount)
 
 	// SETTINGS
 	accountSettings := account.Group("/settings")
-	accountSettings.POST("/new", CreateAppConfig)
-	accountSettings.PUT("/update", UpdateAppConfig)
-	accountSettings.POST("/details", AppConfigDetails)
-	accountSettings.DELETE("/delete", DeleteAppConfig)
+	accountSettings.POST("/create", CreateConfig)
+	accountSettings.PUT("/edit", UpdateConfig)
+	accountSettings.POST("/details", ConfigDetails)
+	accountSettings.DELETE("/delete", DeleteConfig)
 
 	// WALLET
 	wallet := common.Router.Group("/wallet")
-	wallet.POST("/new", NewWalletHandler)
-	wallet.GET("/details", WalletDetailsHandler)
-	wallet.PUT("/edit", EditWalletHandler)
-	wallet.DELETE("/delete", DeleteWalletHandler)
+	wallet.POST("/create", CreateWallet)
+	wallet.GET("/details", WalletDetails)
+	wallet.PUT("/edit", EditWallet)
+	wallet.DELETE("/delete", DeleteWallet)
 
 	// OPERATIONS
 	walletOperation := wallet.Group("/operation")
-	walletOperation.POST("/deposit", DepositHandler)
-	walletOperation.POST("/withdraw", WithdrawHandler)
+	walletOperation.POST("/deposit", Deposit)
+	walletOperation.POST("/withdraw", Withdraw)
+	walletOperation.POST("/transaction/delete", DeleteTransaction)
+	walletOperation.PUT("/transaction/edit", EditTransaction)
+
+	// CATEGORY
+	category := common.Router.Group("/category")
+	category.POST("/create", CreateCategory)
+	category.PUT("/edit", EditCategory)
+	category.GET("/list", CategoryList)
+	category.DELETE("/delete", DeleteCategory)
 
 	// DASHBOARD
 	dashboard := common.Router.Group("/dashboard")
-	dashboard.GET("", MakeDashboardHandler)
+	dashboard.GET("", DashboardDetails)
 }

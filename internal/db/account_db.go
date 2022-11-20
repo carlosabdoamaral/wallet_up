@@ -61,7 +61,6 @@ func NewAccount(m *pb.NewAccountRequest) {
 
 	_, err := db.Exec(NewAccountQuery, m.IdNationality, m.Firstname, m.Lastname, m.Email, m.Password, m.PhonePrefix, m.Ddd, m.Phone)
 	utils.CheckErr(err, false, "Error inserting data")
-
 }
 
 func AccountDetails(m *pb.Id) (*pb.AccountDetailsResponse, error) {

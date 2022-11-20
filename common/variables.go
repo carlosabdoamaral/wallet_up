@@ -47,4 +47,6 @@ var (
 	AccountServiceClient   = pb.NewAccountServiceClient(GrpcConn)
 	AppConfigServiceClient = pb.NewAppConfigServiceClient(GrpcConn)
 	WalletServiceClient    = pb.NewWalletServiceClient(GrpcConn)
+	CategoryServiceClient  = pb.NewCategoryServiceClient(GrpcConn)
+	OperationServiceClient = pb.NewOperationServiceClient(GrpcConn)
 )

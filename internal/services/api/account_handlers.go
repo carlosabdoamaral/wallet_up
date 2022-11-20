@@ -12,7 +12,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func NewAccountHandler(c *gin.Context) {
+func NewAccount(c *gin.Context) {
 	body, err := ioutil.ReadAll(c.Request.Body)
 	if err != nil {
 		c.IndentedJSON(http.StatusBadRequest, err.Error())
@@ -33,7 +33,7 @@ func NewAccountHandler(c *gin.Context) {
 	c.IndentedJSON(http.StatusOK, res.GetStatus())
 }
 
-func AccountDetailsHandler(c *gin.Context) {
+func AccountDetails(c *gin.Context) {
 
 	body, err := ioutil.ReadAll(c.Request.Body)
 	utils.CheckErr(err, false, "Error trying to read body")
@@ -53,7 +53,7 @@ func AccountDetailsHandler(c *gin.Context) {
 	c.IndentedJSON(http.StatusOK, res)
 }
 
-func EditAccountHandler(c *gin.Context) {
+func EditAccount(c *gin.Context) {
 
 	body, err := utils.ReadBody(c)
 	if err != nil {
@@ -73,7 +73,7 @@ func EditAccountHandler(c *gin.Context) {
 	c.IndentedJSON(http.StatusAccepted, "Success to append into queue!")
 }
 
-func SoftDeleteAccountHandler(c *gin.Context) {
+func SoftDeleteAccount(c *gin.Context) {
 
 	body, err := utils.ReadBody(c)
 	if err != nil {
@@ -96,7 +96,7 @@ func SoftDeleteAccountHandler(c *gin.Context) {
 	c.IndentedJSON(http.StatusOK, statusMessage)
 }
 
-func RestoreAccountHandler(c *gin.Context) {
+func RestoreAccount(c *gin.Context) {
 	body, err := ioutil.ReadAll(c.Request.Body)
 	if err != nil {
 		c.IndentedJSON(http.StatusConflict, err.Error())

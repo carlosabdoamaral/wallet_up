@@ -6,55 +6,67 @@ import "google/protobuf/timestamp.proto";
 import "generic.proto";
 
 service WalletService {
-    rpc Create(CreateWalletRequest) returns(WalletDetails) {};
-    rpc Details(Id) returns(WalletDetails) {};
-    rpc Edit(EditWalletRequest) returns(WalletDetails) {};
+    rpc Create(CreateWalletRequest) returns(StatusResponse) {};
+    rpc Details(Id) returns(WalletDetailsResponse) {};
+    rpc Edit(EditWalletRequest) returns(StatusResponse) {};
     rpc Delete(Id) returns(StatusResponse) {};
-    rpc Share(ShareWallet) returns(StatusResponse) {};
-    rpc Unshare(UnshareWallet) returns(StatusResponse) {};
-    rpc Deposit(WalletTransactionDetails) returns(StatusResponse) {};
-    rpc Withdraw(WalletTransactionDetails) returns(StatusResponse) {};
-}
-
-message WalletTransactionDetails {
-	int64 WalletId = 1;     
-	string Type = 2;    
-	float Value = 3;   
-	string Currency = 4;    
-	string Description = 5;    
-	google.protobuf.Timestamp DepositedAt = 6; 
-}
-
-message ShareWallet {
-    int64 IdWallet = 1;
-	string ShareWith = 2;
-}
-
-message UnshareWallet {
-    int64 IdWallet = 1;
-	string UnshareWith = 2;
-}
-
-message WalletDetails {
-    int64    Id = 1;
-    int64    IdUser = 2;
-    string   Name = 3;
-    string   Description = 4;
-    google.protobuf.Timestamp CreatedAt = 6;
-    google.protobuf.Timestamp UpdatedAt = 7;
-    bool     Deleted = 8;
-    repeated ShareWallet SharedWith = 9;
-}
-
-message EditWalletRequest {
-    int64    IdUser = 1;
-    string   Name = 2;
-    string   Description = 3;
+    
+    rpc Share(ShareWalletRequest) returns(StatusResponse) {};
+    rpc UnShare(UnShareWalletRequest) returns(StatusResponse) {};
 }
 
 message CreateWalletRequest {
-    int64    IdUser = 1;
-    string   Name = 2;
-    string   Description = 3;
-    repeated ShareWallet SharedWith = 4;
+    int64 id_user = 1;
+    string name = 2;
+    string description = 3;
+}
+
+message WalletDetailsResponse {
+    WalletDetails wallet_details = 1;
+    repeated TransactionDetails transactions = 2;
+    repeated SharedWith shared_with_list = 3;
+}
+
+message WalletDetails {
+    int64    id = 1;
+    int64    id_user = 2;
+    int64    id_category = 3;
+    string   name = 4;
+    string   description = 5;
+    string   category = 6;
+    google.protobuf.Timestamp created_at = 7;
+    google.protobuf.Timestamp updated_at = 8;
+    bool     deleted = 9;
+}
+
+message TransactionDetails {
+    int64 id_transaction = 1;
+    int64 id_user = 2;
+    int64 id_currency = 3;
+    string currency_key = 4;
+    int64 transaction_type = 5;
+    float value = 6;
+    string description = 7;
+    google.protobuf.Timestamp deposited_at = 8;
+}
+
+message EditWalletRequest {
+    int64 id = 1;
+    string name = 2;
+    string description = 3;
+}
+
+message ShareWalletRequest {
+    int64 id_wallet = 1;
+    string email = 2;
+}
+
+message SharedWith {
+    int64 id_shared_with = 1;
+    string email = 2;
+}
+
+message UnShareWalletRequest {
+    int64 id_wallet = 1;
+    string email = 2;
 }
