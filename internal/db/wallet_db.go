@@ -31,12 +31,22 @@ func EditWallet(m *pb.EditWalletRequest) error {
 
 func DeleteWallet(m *pb.Id) error {
 	db := common.Database
-	query := `
-	DELETE FROM wallet_share_tb WHERE id_wallet = $1;
-	DELETE FROM transaction_tb WHERE id_wallet = $2;
-	DELETE FROM wallet_tb WHERE id = $3;
-	`
-	_, err := db.Exec(query, m.GetId(), m.GetId(), m.GetId())
+	query := `DELETE FROM wallet_share_tb WHERE id_wallet = $1;`
+	_, err := db.Exec(query, m.GetId())
+	if err != nil {
+		common.PrintError(err.Error())
+		return err
+	}
+
+	query = `DELETE FROM transaction_tb WHERE id_wallet = $1;`
+	_, err = db.Exec(query, m.GetId())
+	if err != nil {
+		common.PrintError(err.Error())
+		return err
+	}
+
+	query = `DELETE FROM wallet_tb WHERE id = $1;`
+	_, err = db.Exec(query, m.GetId())
 	if err != nil {
 		common.PrintError(err.Error())
 		return err

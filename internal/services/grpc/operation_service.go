@@ -82,10 +82,6 @@ func (s *OperationServer) EditTransaction(c context.Context, req *pb.EditTransac
 		return nil, errors.New("currency id must be greater than zero")
 	case req.GetIdType() <= 0:
 		return nil, errors.New("type id must be greater than zero")
-	case req.GetIdUser() <= 0:
-		return nil, errors.New("user id must be greater than zero")
-	case req.GetIdWallet() <= 0:
-		return nil, errors.New("wallet id must be greater than zero")
 	case req.GetValue() <= 0:
 		return nil, errors.New("value must be greater than zero")
 	}

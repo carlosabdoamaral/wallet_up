@@ -36,7 +36,7 @@ func MakeRoutes() {
 	// WALLET
 	wallet := common.Router.Group("/wallet")
 	wallet.POST("/create", CreateWallet)
-	wallet.GET("/details", WalletDetails)
+	wallet.POST("/details", WalletDetails)
 	wallet.PUT("/edit", EditWallet)
 	wallet.DELETE("/delete", DeleteWallet)
 

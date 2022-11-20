@@ -1,14 +1,14 @@
 package db
 
 import (
+	"fmt"
+
 	"github.com/carlosabdoamaral/wallet_up/common"
 	"github.com/carlosabdoamaral/wallet_up/internal/models"
-	"github.com/carlosabdoamaral/wallet_up/internal/utils"
 	pb "github.com/carlosabdoamaral/wallet_up/protodefs/gen/proto"
 )
 
 var (
-	NewAccountQuery     = "INSERT INTO user_tb(id_nationality, first_name, last_name, email, password, phone_prefix, ddd, phone) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)"
 	AccountDetailsQuery = `SELECT
 		user_tb.id,
 		user_tb.first_name,
@@ -58,9 +58,19 @@ var (
 
 func NewAccount(m *pb.NewAccountRequest) {
 	db := common.Database
+	query := `INSERT INTO user_tb(id_nationality, id_config, first_name, last_name, email, password, phone_prefix, ddd, phone) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)`
 
-	_, err := db.Exec(NewAccountQuery, m.IdNationality, m.Firstname, m.Lastname, m.Email, m.Password, m.PhonePrefix, m.Ddd, m.Phone)
-	utils.CheckErr(err, false, "Error inserting data")
+	if m.GetIdConfig() == 0 {
+		m.IdConfig = 1
+	}
+
+	res, err := db.Exec(query, m.IdNationality, m.IdConfig, m.Firstname, m.Lastname, m.Email, m.Password, m.PhonePrefix, m.Ddd, m.Phone)
+	if err != nil {
+		common.PrintError(err.Error())
+		return
+	}
+
+	fmt.Println(res)
 }
 
 func AccountDetails(m *pb.Id) (*pb.AccountDetailsResponse, error) {

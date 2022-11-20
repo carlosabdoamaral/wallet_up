@@ -16,30 +16,31 @@ service AccountService {
 
 // NEW ACCOUNT
 message NewAccountRequest {
-    int64 IdNationality  = 1;
-	string Firstname     = 2;
-	string Lastname      = 3;
-	string Email         = 4;
-	string Password      = 5;
-	string PhonePrefix    = 6;
-	string Ddd           = 7;
-	string Phone         = 8;
+    int64 id_config = 1;
+    int64 id_nationality = 2;
+	string firstname = 3;
+	string lastname = 4;
+	string email = 5;
+	string password = 6;
+	string phone_prefix = 7;
+	string ddd = 8;
+	string phone = 9;
 }
 
 // ACCOUNT DETAILS
 message AccountDetails {
-    int64 Id                = 1;
-    string Firstname        = 2;
-    string Lastname         = 3;
-    string Email            = 4;
-    string Password         = 5;
-    string PhonePrefix        = 6;
-    string Ddd              = 7;
-    string Phone            = 8;
-    bool Deleted            = 9;
-    int64 IdNationality     = 10;
-    string NationalityName  = 11;
-    string NationalityKey   = 12;
+    int64 id = 1;
+    int64 id_nationality = 2;
+    string firstname = 3;
+	string lastname = 4;
+	string email = 5;
+	string password = 6;
+	string phone_prefix = 7;
+	string ddd = 8;
+	string phone = 9;
+    bool deleted = 10;
+    string nationality_name = 11;
+    string nationality_key = 12;
 }
 
 message AccountDetailsResponse {
@@ -48,19 +49,19 @@ message AccountDetailsResponse {
 }
 
 message EditAccountInfos {
-	int64 IdNationality  = 1;
-	string Firstname     = 2;
-	string Lastname      = 3;
-	string Email         = 4;
-	string Password      = 5;
-	string PhonePrefix    = 6;
-	string Ddd           = 7;
-	string Phone         = 8;
-	bool Deleted         = 9;
+    int64 id_nationality = 1;
+	string firstname = 2;
+	string lastname = 3;
+	string email = 4;
+	string password = 5;
+	string phone_prefix = 6;
+	string ddd = 7;
+	string phone = 8;
+    bool deleted = 9;
 }
 
 message EditAccountRequest {
     int64 id = 1;
     EditAccountInfos account = 2;
-    AppConfig config           = 3;
+    AppConfig config = 3;
 }

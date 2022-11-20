@@ -27,7 +27,7 @@ func Withdraw(m *pb.TransactionRequest) error {
 	}
 
 	return nil
-	
+
 }
 
 func DeleteTransaction(m *pb.Id) error {
@@ -44,8 +44,8 @@ func DeleteTransaction(m *pb.Id) error {
 
 func EditTransaction(m *pb.EditTransactionRequest) error {
 	db := common.Database
-	query := `UPDATE transaction_tb SET id_wallet = $1, id_currency = $2,  id_type = $3, value = $4, description = $5 WHERE id = $6;`
-	_, err := db.Exec(query, m.GetIdWallet(), m.GetIdCurrency(), m.GetIdType(), m.GetValue(), m.GetDescription(), m.GetIdTransaction())
+	query := `UPDATE transaction_tb SET id_currency = $2,  id_type = $3, value = $4, description = $5 WHERE id = $6;`
+	_, err := db.Exec(query, m.GetIdCurrency(), m.GetIdType(), m.GetValue(), m.GetDescription(), m.GetIdTransaction())
 	if err != nil {
 		common.PrintFatal(err.Error())
 		return err

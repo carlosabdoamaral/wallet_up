@@ -32,6 +32,7 @@ func (s *CategoryServer) EditCategory(c context.Context, req *pb.EditCategoryReq
 	return nil, nil
 }
 
+// TODO:
 func (s *CategoryServer) CategoryList(c context.Context, req *pb.Id) (*pb.CategoryListResponse, error) {
 	body, err := protojson.Marshal(req)
 	if err != nil {
