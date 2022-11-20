@@ -33,6 +33,8 @@ func Start() {
 				EditAccountHandler(&m)
 			case "SOFTDELETEACCOUNT":
 				SoftDeleteAccountHandler(&m)
+			case "DELETEACCOUNT":
+				DeleteAccount(&m)
 			case "RESTOREACCOUNT":
 				RestoreAccountHandler(&m)
 			}

@@ -59,3 +59,20 @@ func RestoreAccountHandler(m *amqp.Delivery) {
 
 	common.PrintSuccess("Account restored successfully")
 }
+
+func DeleteAccount(m *amqp.Delivery) {
+	id := &pb.Id{}
+	err := protojson.Unmarshal(m.Body, id)
+	if err != nil {
+		common.PrintError(err.Error())
+		return
+	}
+
+	err = db.RestoreAccount(id)
+	if err != nil {
+		common.PrintError(err.Error())
+		return
+	}
+
+	common.PrintSuccess("Account restored successfully")
+}

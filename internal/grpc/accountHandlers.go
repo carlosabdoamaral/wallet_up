@@ -88,3 +88,18 @@ func (s *AccountServer) Restore(c context.Context, req *pb.Id) (*pb.StatusRespon
 		return &pb.StatusResponse{Status: "restore account request appended to queue"}, nil
 	}
 }
+
+func (s *AccountServer) Delete(c context.Context, req *pb.Id) (*pb.StatusResponse, error) {
+	if req.GetId() <= 0 {
+		err := errors.New("id must be greater than zero")
+		return nil, err
+	}
+
+	if body, err := protojson.Marshal(req); err != nil {
+		common.PrintError(err.Error())
+		return nil, err
+	} else {
+		producer.SendMessage(body, "DELETEACCOUNT")
+		return &pb.StatusResponse{Status: "restore account request appended to queue"}, nil
+	}
+}
