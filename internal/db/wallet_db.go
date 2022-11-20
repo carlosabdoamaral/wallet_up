@@ -103,6 +103,7 @@ func WalletDetails(m *pb.Id) (*pb.WalletDetailsResponse, error) {
 		t := &pb.TransactionDetails{}
 		rows.Scan(&t.IdTransaction, &t.IdUser, &t.IdCurrency, &t.CurrencyKey, &t.TransactionType, &t.Value, &t.Description, &t.DepositedAt)
 		res.Transactions = append(res.Transactions, t)
+		fmt.Println(t.Value)
 	}
 
 	// MARK: SHARED CONTACTS
@@ -133,6 +134,5 @@ func WalletDetails(m *pb.Id) (*pb.WalletDetailsResponse, error) {
 		res.WalletDetails = t
 	}
 
-	fmt.Println(res)
 	return res, nil
 }

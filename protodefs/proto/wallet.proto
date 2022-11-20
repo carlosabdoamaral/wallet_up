@@ -45,7 +45,7 @@ message TransactionDetails {
     int64 id_currency = 3;
     string currency_key = 4;
     int64 transaction_type = 5;
-    float value = 6;
+    double value = 6;
     string description = 7;
     google.protobuf.Timestamp deposited_at = 8;
 }
