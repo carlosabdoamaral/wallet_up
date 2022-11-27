@@ -1,7 +1,19 @@
 import 'dart:ffi';
 
+class HomeChartModel {
+  HomeChartModel(
+    this.time,
+    this.value,
+  );
+  final DateTime time;
+  final double value;
+}
+
 class SharedContactModel {
-  SharedContactModel(this.id, this.email);
+  SharedContactModel(
+    this.id,
+    this.email,
+  );
   final int id;
   final String email;
 }
@@ -21,7 +33,7 @@ class TransactionModel {
     this.categoryID,
     this.wallet,
     this.description,
-    this.sentAt
+    this.sentAt,
   );
 
   final int id;
@@ -35,7 +47,11 @@ class TransactionModel {
 }
 
 class WalletBasicModel {
-  WalletBasicModel(this.id, this.title, this.description);
+  WalletBasicModel(
+    this.id,
+    this.title,
+    this.description,
+  );
   final int id;
   final String title;
   final String description;
@@ -51,7 +67,7 @@ class WalletModel {
     this.sharedContacts,
     this.transactionList,
     this.createdAt,
-    this.updatedAt
+    this.updatedAt,
   );
 
   final int id;
