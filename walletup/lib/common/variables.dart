@@ -1,1 +1,0 @@
-double balanceValue = 0;
